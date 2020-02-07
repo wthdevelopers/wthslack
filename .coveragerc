@@ -1,0 +1,6 @@
+[run]
+omit =
+    setup.py
+    .eggs/*
+    .tox/*
+    env/*
