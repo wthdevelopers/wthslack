@@ -1,7 +1,7 @@
 # Import the corresponding specific SQL RDBMS that we will be using as well, not just SQLAlchemy
 # In our case, it will be PyMySQL
 
-slackers==0.4.0
+slackers==0.4.2
 slackclient==2.2.1
 sqlalchemy>=1.3.10
 PyMySQL==0.9.3
