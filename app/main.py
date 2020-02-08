@@ -28,14 +28,12 @@ import config
 import handlers.utils.start
 import handlers.utils.cancel
 import handlers.viewing.leaderboard
-import handlers.viewing.summary  # TODO
+import handlers.viewing.summary
 import handlers.viewing.overall  # TODO
 import handlers.judging.team
 import handlers.judging.scoring
 import handlers.judging.remark
 import handlers.judging.end_judge
-
-# TODO: Editing workflow
 import handlers.editing.team
 import handlers.editing.scoring
 import handlers.editing.remark

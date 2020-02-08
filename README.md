@@ -124,9 +124,11 @@ Directory listing:
     - `firebaser.py`: Cloud Firestore helper functions
     - `dbhelper.py`: SQLAlchemy helper functions
   - `handlers`
+    - `editing`: Command handlers that are related to editing purposes
     - `judging`: Command handlers that are related to judging purposes
-    - `viewing`: Command handlers that are related to database viewing purposes
     - `utils`: Command handlers that are related to other miscellaneous purposes
+    - `viewing`: Command handlers that are related to database viewing purposes
+- `assets`: Other useful assets
 - `scripts`: Folder of useful scripts
 - `tests`: Test package
 
