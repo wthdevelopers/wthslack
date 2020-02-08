@@ -15,7 +15,7 @@ from starlette.responses import Response, JSONResponse
 conv_db = config.conv_handler
 
 
-# Function recipe to loop through a list 4 items at a time
+# Function recipe to loop through a list n items at a time
 def grouper(n, iterable, fillvalue=None):
     args = [iter(iterable)] * n
     return zip_longest(fillvalue=fillvalue, *args)
