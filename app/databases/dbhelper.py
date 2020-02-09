@@ -582,7 +582,7 @@ class DBHelper:
         # Prepare category_id
         category_id = self.get_category_id(category_name)
 
-        # Join Group and Score tables using group_id, filter based on category_id, then select these 6 columns (as subquery)
+        # Join Group and Score tables using group_id, filter based on category_id, then select these 7 columns (as subquery)
         score_list = (
             session.query(
                 self.Group.group_id,
@@ -647,6 +647,7 @@ class DBHelper:
             .all(),
             key=lambda x: x[1],
         )
+        # Group categories for the specified judge together in a list based on first element of tuple
         categories = [
             (name, [category for _, category in categories])
             for name, categories in groupby(temp_judge_categories, itemgetter(0))
@@ -715,6 +716,7 @@ class DBHelper:
             key=lambda x: x[1],
         )
 
+        # Group categories for the specified judge together in a list based on first element of tuple
         judge_categories = [
             (name, [category for _, category in categories])
             for name, categories in groupby(temp_judge_categories, itemgetter(0))
@@ -731,6 +733,7 @@ class DBHelper:
             .filter(self.Group.group_id == group_id)
             .all()
         )
+        # Group categories for the specified group together in a list based on first element of tuple
         actual_group_categories = [
             (name, [x for _, x in categories])
             for name, categories in groupby(temp_group_categories, itemgetter(0))
@@ -784,7 +787,7 @@ class DBHelper:
 
         self.Session.remove()
 
-    # Append a directory path of the local remarks image to the score commit
+    # Append the remarks image URL to the score commit
 
     def add_remarks(self, judge_id, group_id, path):
         session = self.Session()
