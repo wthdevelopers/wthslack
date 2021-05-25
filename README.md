@@ -29,7 +29,7 @@ Since this bot is only for our private Slack workspace (and not for public distr
 
 ## Installation
 
-After cloning this repo, just populate the necessary constants in [`settings.py`](./app/settings.py) and run `deploy.sh` from the `scripts` folder before the hackathon starts to initialize all configurations. It provides an automated setting-up of:
+After cloning this repo, just populate the necessary constants in [`settings.py`](./app/settings.py) and run [`deploy.sh`](./scripts/deploy.sh) from the [`scripts`](./scripts) folder as the current working directory before the hackathon starts to initialize all configurations. It provides an automated setting-up of:
 
 - The initialization of the isolated Python virtual environment
 - The required Python dependencies needed to run the bot properly
@@ -37,7 +37,7 @@ After cloning this repo, just populate the necessary constants in [`settings.py`
 - The bot server configuration files & environment variables
 - The execution of the bot's code
 
-Post-hackathon, do a proper clean-up by running `shutdown.sh`.
+Post-hackathon, do a proper clean-up by running [`shutdown.sh`](./scripts/shutdown.sh), also from the [`scripts`](./scripts) folder as the current working directory.
 
 ## Slack App Configuration
 
