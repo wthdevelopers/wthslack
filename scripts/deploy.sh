@@ -9,12 +9,16 @@ sudo apt update
 # Install dependencies for MySQL
 sudo apt install -y mysql-server
 
+# Configure MySQL to start upon boot and start MySQL
+sudo systemctl enable mysql.service
+sudo systemctl start mysql.service
+
 # Activate virtual environment and install dependencies
-sudo apt install -y python3.7
-sudo python3.7 -m venv "../env"
+sudo apt install -y python3.8 python3.8-dev python3.8-venv
+python3.8 -m venv "../env/"
 source "../env/bin/activate"
-sudo pip install --upgrade pip
-sudo pip install -r "../requirements.txt"
+python -m pip install --upgrade pip
+python -m pip install -r "../requirements.txt"
 
 # Expose mysql-server to open internet
 sed "s/bind-address		= 127.0.0.1/bind-address		= 0.0.0.0/g" "/etc/mysql/mysql.conf.d/mysqld.cnf" > "/etc/mysql/mysql.conf.d/mysqld.cnf"
