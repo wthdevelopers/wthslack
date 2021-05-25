@@ -31,8 +31,9 @@ Since this bot is only for our private Slack workspace (and not for public distr
 
 After cloning this repo, just populate the necessary constants in [`settings.py`](./app/settings.py) and run `deploy.sh` from the `scripts` folder before the hackathon starts to initialize all configurations. It provides an automated setting-up of:
 
-- The SQL database
-- The initiation of the container environment
+- The initialization of the isolated Python virtual environment
+- The required Python dependencies needed to run the bot properly
+- The SQL database and its corresponding configurations
 - The bot server configuration files & environment variables
 - The execution of the bot's code
 

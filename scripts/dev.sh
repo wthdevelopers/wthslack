@@ -4,6 +4,13 @@
 source "../env/bin/activate"
 cd "../app"
 
+if [[ $(sudo snap info ngrok | grep "installed") ]]; then
+    echo "Ngrok is already installed!"
+else
+    echo "Ngrok is not yet installed. Installing the latest version using the Snap Store..."
+    sudo snap install ngrok
+fi
+
 # Define ngrok authentication token
 export AUTHTOKEN=<token>
 ngrok authtoken $AUTHTOKEN

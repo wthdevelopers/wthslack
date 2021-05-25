@@ -1,7 +1,9 @@
+DROP DATABASE IF EXISTS sutdwth;
+
 CREATE DATABASE sutdwth;
 
 -- Default MySQL configurations
-UPDATE mysql.user SET authentication_string=PASSWORD('password') WHERE User='root';  -- Set root password
+UPDATE mysql.user SET authentication_string=PASSWORD('password') WHERE User='root';  -- Set root password (follow your local security policies, configurations and password requirements accordingly)
 DELETE FROM mysql.user WHERE User='';  -- Remove anonymous users
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');  -- Root can only connect locally
 DROP DATABASE IF EXISTS test;  -- Drop test db
