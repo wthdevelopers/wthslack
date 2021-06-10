@@ -12,6 +12,6 @@ requests>=2.22
 uvloop==0.14.0
 uvicorn==0.11.7
 starlette==0.12.9
-fastapi==0.47.1
+fastapi==0.65.2
 certifi
 gunicorn
