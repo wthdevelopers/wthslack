@@ -41,6 +41,8 @@ Post-hackathon, do a proper clean-up by running [`shutdown.sh`](./scripts/shutdo
 
 ## Slack App Configuration
 
+With the current app design, the corresponding various Request URL endpoints are protected with the secret key (Bot User OAuth Token, instead of User OAuth Token) for additional security purposes. Hence, the URL link structure would roughly be: `https://subdomain.domain.tld/<secret-key>/<endpoint>`.
+
 - Settings:
   _SUTD WTH Bot - Automated service provider for SUTD What The Hack_
 
@@ -49,8 +51,8 @@ Post-hackathon, do a proper clean-up by running [`shutdown.sh`](./scripts/shutdo
   2. Both OAuth Access Token and Bot User OAuth Access Token are utilized
   3. `Messages Tab` enabled
   4. `Incoming Webhooks` activated (with only one existing `Webhook URL`)
-  5. `Interactivity` enabled with the appropriate Request URL
-  6. `Slash Commands` enabled for the respective commands
+  5. `Interactivity` enabled with the appropriate Request URL (`/actions` endpoint)
+  6. `Slash Commands` enabled for the respective commands with the appropriate Request URL (`/commands` endpoint) and the `Escape channels, users, and links sent to your app` option enabled
   7. `Bot Token Scopes`:
 
       * `channels:history`
@@ -82,8 +84,7 @@ Post-hackathon, do a proper clean-up by running [`shutdown.sh`](./scripts/shutdo
 
       * `chat:write`
 
-  9. `Events` enabled with the appropriate Request URL and subscribed to these corresponding bot events:
-  
+  9. `Events` enabled with the appropriate Request URL (`/events` endpoint) and subscribed to these corresponding bot events:
       * `message.channels`
       * `message.groups`
       * `message.im`
