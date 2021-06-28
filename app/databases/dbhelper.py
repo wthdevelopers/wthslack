@@ -85,19 +85,19 @@ class DBHelper:
         judge_id = Column(VARCHAR(36), nullable=False)
 
         def __repr__(self):
-            return f"<Category Judge ID: {self.category_group_id}>"
+            return f"<Category Judge ID: {self.category_judge_id}>"
 
-    class CategoryUser(Base):
-        __tablename__ = "category_user"
+    class CategoryParticipant(Base):
+        __tablename__ = "category_participant"
 
-        category_user_id = Column(
+        category_participant_id = Column(
             VARCHAR(36), primary_key=True, nullable=False, default=func.uuid()
         )
         category_id = Column(VARCHAR(36), nullable=False)
-        user_id = Column(VARCHAR(36), nullable=False)
+        participant_id = Column(VARCHAR(36), nullable=False)
 
         def __repr__(self):
-            return f"<Category User ID: {self.category_group_id}>"
+            return f"<Category Participant ID: {self.category_participant_id}>"
 
     class CompetitionCategory(Base):
         __tablename__ = "competition_category"
@@ -145,7 +145,8 @@ class DBHelper:
             VARCHAR(36), primary_key=True, nullable=False, default=func.uuid()
         )
         name = Column(Text, nullable=False)
-        space = Column(Text, nullable=False)
+        group_leader_id = Column(VARCHAR(36), nullable=False)
+        space = Column(Text)
         hack_submitted = Column(TINYINT(4), nullable=False, default=0)
         utensils_returned = Column(TINYINT(4), nullable=False, default=0)
 
@@ -197,10 +198,10 @@ class DBHelper:
         def __repr__(self):
             return f"<Tool ID: {self.tool_id}>"
 
-    class User(Base):
-        __tablename__ = "user"
+    class Participant(Base):
+        __tablename__ = "participant"
 
-        user_id = Column(
+        participant_id = Column(
             VARCHAR(36), primary_key=True, nullable=False, default=func.uuid()
         )
         name = Column(Text, nullable=False)
@@ -211,23 +212,68 @@ class DBHelper:
         DoB = Column(DateTime, nullable=False)
         gender = Column(Text, nullable=False)
         nationality = Column(Text, nullable=False)
-        organisation = Column(Text, nullable=False)
+        organisation_id = Column(VARCHAR(36), nullable=False)
         designation = Column(Text, nullable=False)
         dietary_pref = Column(Text, nullable=False)
-        NoK_name = Column(Text, nullable=False)
-        NoK_relationship = Column(Text, nullable=False)
-        NoK_contact_number = Column(Text, nullable=False)
+        NoK_id = Column(VARCHAR(36), nullable=False)
         shirt_size = Column(Text, nullable=False)
         previous_hackathons_attended = Column(Text, nullable=False)
         bringing_utensils = Column(Text, nullable=False)
         team_allocation_preference = Column(Text, nullable=False)
         utensil_color = Column(Text)
+        created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
+        last_modified = Column(
+            DateTime(timezone=True),
+            nullable=False,
+            default=func.now(),
+            onupdate=func.now(),
+        )
 
         def __repr__(self):
-            return f"<User ID: {self.user_id}>"
+            return f"<Participant ID: {self.participant_id}>"
 
-    class UserPreferenceTechnologyofInterest(Base):
-        __tablename__ = "_user_preference_technology_of_interest"
+    class ParticipantOrganisation(Base):
+        __tablename__ = "participant_organisation"
+
+        organisation_id = Column(
+            VARCHAR(36), primary_key=True, nullable=False, default=func.uuid()
+        )
+        organisation_name = Column(Text, nullable=False)
+        participant_id = Column(VARCHAR(36), nullable=False)
+        created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
+        last_modified = Column(
+            DateTime(timezone=True),
+            nullable=False,
+            default=func.now(),
+            onupdate=func.now(),
+        )
+
+        def __repr__(self):
+            return f"<Organisation ID: {self.organisation_id}>"
+
+    class ParticipantNextOfKin(Base):
+        __tablename__ = "participant_next_of_kin"
+
+        NoK_id = Column(
+            VARCHAR(36), primary_key=True, nullable=False, default=func.uuid()
+        )
+        NoK_name = Column(Text, nullable=False)
+        NoK_contact_number = Column(Text, nullable=False)
+        NoK_relationship = Column(Text, nullable=False)
+        participant_id = Column(VARCHAR(36), nullable=False)
+        created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
+        last_modified = Column(
+            DateTime(timezone=True),
+            nullable=False,
+            default=func.now(),
+            onupdate=func.now(),
+        )
+
+        def __repr__(self):
+            return f"<Participant Next Of Kin ID: {self.NoK_id}>"
+
+    class ParticipantPreferenceTechnologyofInterest(Base):
+        __tablename__ = "_participant_preference_technology_of_interest"
 
         technology_of_interest_id = Column(
             VARCHAR(36), primary_key=True, nullable=False
@@ -235,80 +281,80 @@ class DBHelper:
         name = Column(Text, nullable=False)
 
         def __repr__(self):
-            return f"<User Preference Technology of Interest ID: {self.technology_of_interest_id}>"
+            return f"<Participant Preference Technology of Interest ID: {self.technology_of_interest_id}>"
 
-    class UserPreferenceTechnologyofInterestUser(Base):
-        __tablename__ = "_user_preference_technology_of_interest_user"
+    class ParticipantPreferenceTechnologyofInterestParticipant(Base):
+        __tablename__ = "_participant_preference_technology_of_interest_participant"
 
-        technology_of_interest_user_id = Column(
+        technology_of_interest_participant_id = Column(
             VARCHAR(36), primary_key=True, nullable=False
         )
         technology_of_interest_id = Column(VARCHAR(36), nullable=False)
-        user_id = Column(VARCHAR(36), nullable=False)
+        participant_id = Column(VARCHAR(36), nullable=False)
 
         def __repr__(self):
-            return f"<User Preference Technology of Interest User ID: {self.technology_of_interest_user_id}>"
+            return f"<Participant Preference Technology of Interest Participant ID: {self.technology_of_interest_participant_id}>"
 
-    class UserPreferenceSkills(Base):
-        __tablename__ = "_user_preference_skills"
+    class ParticipantPreferenceSkills(Base):
+        __tablename__ = "_participant_preference_skills"
 
         skills_id = Column(VARCHAR(36), primary_key=True, nullable=False)
         name = Column(Text, nullable=False)
 
         def __repr__(self):
-            return f"<User Preference Skills ID: {self.skills_id}>"
+            return f"<Participant Preference Skills ID: {self.skills_id}>"
 
-    class UserPreferenceSkillsUser(Base):
-        __tablename__ = "_user_preference_skills_user"
+    class ParticipantPreferenceSkillsParticipant(Base):
+        __tablename__ = "_participant_preference_skills_participant"
 
-        skills_user_id = Column(VARCHAR(36), primary_key=True, nullable=False)
+        skills_participant_id = Column(VARCHAR(36), primary_key=True, nullable=False)
         skills_id = Column(VARCHAR(36))
         other_skills = Column(Text)
-        user_id = Column(VARCHAR(36), nullable=False)
+        participant_id = Column(VARCHAR(36), nullable=False)
 
         def __repr__(self):
-            return f"<User Preference Skills User ID: {self.skills_user_id}>"
+            return f"<Participant Preference Skills Participant ID: {self.skills_participant_id}>"
 
-    class UserPreferenceUtensilName(Base):
-        __tablename__ = "_user_preference_utensil_name"
+    class ParticipantPreferenceUtensilName(Base):
+        __tablename__ = "_participant_preference_utensil_name"
 
         utensil_name_id = Column(VARCHAR(36), primary_key=True, nullable=False)
         name = Column(Text, nullable=False)
 
         def __repr__(self):
-            return f"<User Preference Utensil Name ID: {self.utensil_name_id}>"
+            return f"<Participant Preference Utensil Name ID: {self.utensil_name_id}>"
 
-    class UserPreferenceUtensilNameUser(Base):
-        __tablename__ = "_user_preference_utensil_name_user"
+    class ParticipantPreferenceUtensilNameParticipant(Base):
+        __tablename__ = "_participant_preference_utensil_name_participant"
 
-        utensil_name_user_id = Column(VARCHAR(36), primary_key=True, nullable=False)
+        utensil_name_participant_id = Column(
+            VARCHAR(36), primary_key=True, nullable=False
+        )
         utensil_name_id = Column(VARCHAR(36), nullable=False)
-        user_id = Column(VARCHAR(36), nullable=False)
+        participant_id = Column(VARCHAR(36), nullable=False)
 
         def __repr__(self):
-            return (
-                f"<User Preference Utensil Name User ID: {self.utensil_name_user_id}>"
-            )
+            return f"<Participant Preference Utensil Name Participant ID: {self.utensil_name_participant_id}>"
 
-    class UserPreferenceWorkshops(Base):
-        __tablename__ = "_user_preference_workshops"
+    class ParticipantPreferenceWorkshops(Base):
+        __tablename__ = "_participant_preference_workshops"
 
         workshops_id = Column(VARCHAR(36), primary_key=True, nullable=False)
         name = Column(Text, nullable=False)
 
         def __repr__(self):
-            return f"<User Preference Workshops ID: {self.workshops_id}>"
+            return f"<Participant Preference Workshops ID: {self.workshops_id}>"
 
-    class UserPreferenceWorkshopsUser(Base):
-        __tablename__ = "_user_preference_workshops_user"
+    class ParticipantPreferenceWorkshopsParticipant(Base):
+        __tablename__ = "_participant_preference_workshops_participant"
 
-        workshops_user_id = Column(VARCHAR(36), primary_key=True, nullable=False)
+        workshops_participant_id = Column(VARCHAR(36), primary_key=True, nullable=False)
         workshops_id = Column(VARCHAR(36), nullable=False)
-        user_id = Column(VARCHAR(36), nullable=False)
+        participant_id = Column(VARCHAR(36), nullable=False)
         level_of_preference = Column(INTEGER(11), nullable=False)
 
         def __repr__(self):
-            return f"<User Preference Workshops User ID: {self.workshops_user_id}>"
+            return f"<Participant Preference Workshops Participant ID: {self.workshops_participant_id}>"
 
     # Define triggers
     event.listen(
@@ -326,7 +372,7 @@ class DBHelper:
         ).execute_if(dialect="mysql"),
     )
     event.listen(
-        CategoryUser.__table__,
+        CategoryParticipant.__table__,
         "after_create",
         DDL(
             """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.%(table)s_id = UUID();"""
@@ -383,7 +429,7 @@ class DBHelper:
         ).execute_if(dialect="mysql"),
     )
     event.listen(
-        User.__table__,
+        Participant.__table__,
         "after_create",
         DDL(
             """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.%(table)s_id = UUID();"""
@@ -391,59 +437,73 @@ class DBHelper:
     )
     # Different column names compared to table names
     event.listen(
-        UserPreferenceTechnologyofInterest.__table__,
+        ParticipantOrganisation.__table__,
+        "after_create",
+        DDL(
+            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.organisation_id = UUID();"""
+        ).execute_if(dialect="mysql"),
+    )
+    event.listen(
+        ParticipantNextOfKin.__table__,
+        "after_create",
+        DDL(
+            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.NoK_id = UUID();"""
+        ).execute_if(dialect="mysql"),
+    )
+    event.listen(
+        ParticipantPreferenceTechnologyofInterest.__table__,
         "after_create",
         DDL(
             """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.technology_of_interest_id = UUID();"""
         ).execute_if(dialect="mysql"),
     )
     event.listen(
-        UserPreferenceTechnologyofInterestUser.__table__,
+        ParticipantPreferenceTechnologyofInterestParticipant.__table__,
         "after_create",
         DDL(
-            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.technology_of_interest_user_id = UUID();"""
+            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.technology_of_interest_participant_id = UUID();"""
         ).execute_if(dialect="mysql"),
     )
     event.listen(
-        UserPreferenceSkills.__table__,
+        ParticipantPreferenceSkills.__table__,
         "after_create",
         DDL(
             """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.skills_id = UUID();"""
         ).execute_if(dialect="mysql"),
     )
     event.listen(
-        UserPreferenceSkillsUser.__table__,
+        ParticipantPreferenceSkillsParticipant.__table__,
         "after_create",
         DDL(
-            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.skills_user_id = UUID();"""
+            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.skills_participant_id = UUID();"""
         ).execute_if(dialect="mysql"),
     )
     event.listen(
-        UserPreferenceUtensilName.__table__,
+        ParticipantPreferenceUtensilName.__table__,
         "after_create",
         DDL(
             """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.utensil_name_id = UUID();"""
         ).execute_if(dialect="mysql"),
     )
     event.listen(
-        UserPreferenceUtensilNameUser.__table__,
+        ParticipantPreferenceUtensilNameParticipant.__table__,
         "after_create",
         DDL(
-            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.utensil_name_user_id = UUID();"""
+            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.utensil_name_participant_id = UUID();"""
         ).execute_if(dialect="mysql"),
     )
     event.listen(
-        UserPreferenceWorkshops.__table__,
+        ParticipantPreferenceWorkshops.__table__,
         "after_create",
         DDL(
             """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.workshops_id = UUID();"""
         ).execute_if(dialect="mysql"),
     )
     event.listen(
-        UserPreferenceWorkshopsUser.__table__,
+        ParticipantPreferenceWorkshopsParticipant.__table__,
         "after_create",
         DDL(
-            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.workshops_user_id = UUID();"""
+            """CREATE TRIGGER %(table)s_trigger BEFORE INSERT ON %(table)s FOR EACH ROW SET NEW.workshops_participant_id = UUID();"""
         ).execute_if(dialect="mysql"),
     )
 
@@ -547,7 +607,12 @@ class DBHelper:
         session = self.Session()
 
         try:
-            session.add(self.Judge(judge_id=user_id, name=name,))
+            session.add(
+                self.Judge(
+                    judge_id=user_id,
+                    name=name,
+                )
+            )
             session.commit()
         # This is important for modification queries
         except:
@@ -565,7 +630,12 @@ class DBHelper:
         category_id = self.get_category_id(category_name)
 
         try:
-            session.add(self.CategoryJudge(judge_id=user_id, category_id=category_id,))
+            session.add(
+                self.CategoryJudge(
+                    judge_id=user_id,
+                    category_id=category_id,
+                )
+            )
             session.commit()
         # This is important for modification queries
         except:
@@ -886,9 +956,7 @@ class DBHelper:
 
         self.Session.remove()
 
-        return sorted(
-            [category for sublist in main_categories for category in sublist]
-        )
+        return sorted([category for sublist in main_categories for category in sublist])
 
     # Obtain specific score row
 
@@ -899,18 +967,22 @@ class DBHelper:
         group_id = self.get_group_id(group_name)
         category_id = self.get_category_id(category_name)
 
-        category_score = session.query(
-            self.Score.criteria_1_score,
-            self.Score.criteria_2_score,
-            self.Score.criteria_3_score,
-            self.Score.criteria_4_score
-        ).filter(
-            and_(
-                self.Score.judge_id == judge_id,
-                self.Score.group_id == group_id,
-                self.Score.category_id == category_id,
+        category_score = (
+            session.query(
+                self.Score.criteria_1_score,
+                self.Score.criteria_2_score,
+                self.Score.criteria_3_score,
+                self.Score.criteria_4_score,
             )
-        ).all()
+            .filter(
+                and_(
+                    self.Score.judge_id == judge_id,
+                    self.Score.group_id == group_id,
+                    self.Score.category_id == category_id,
+                )
+            )
+            .all()
+        )
 
         self.Session.remove()
 
@@ -924,14 +996,16 @@ class DBHelper:
         # Prepare group_id
         group_id = self.get_group_id(group_name)
 
-        category_score = session.query(
-            self.Score.notes_filepath
-        ).filter(
-            and_(
-                self.Score.judge_id == judge_id,
-                self.Score.group_id == group_id,
+        category_score = (
+            session.query(self.Score.notes_filepath)
+            .filter(
+                and_(
+                    self.Score.judge_id == judge_id,
+                    self.Score.group_id == group_id,
+                )
             )
-        ).all()
+            .all()
+        )
 
         self.Session.remove()
 

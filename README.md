@@ -23,7 +23,9 @@ This codebase is made open to the public to prove that the score processing duri
 
 For the Slack bot side, we are using the Slackers Python Library, which follows the Pydantic philosophy. We built the Slack bot from the ground up (quite low-level) instead of using certain bot frameworks that currently already exist since it provides us with more flexibility with the whole FastAPI server setup and database management (considering that Slack's API changes quite rapidly). We are using FastAPI equipped with an ASGI server since it provides easier asynchronous management and speedier service for the Slack bot (by using Starlette and Uvicorn). Thus, please take note that at the moment, Windows does not support `uvloop`, which is used by this Slack bot.
 
-This bot uses SQLAlchemy for the database side. This is just nice since FastAPI integrates nicely with SQLAlchemy. It may be replaced by any equivalent SQL database (feel free to modify `dbhelper.py`). It is also possible to generate an SQLAlchemy model from an existing database by using `sqlacodegen`. Data is collected through Microsoft Forms (due to PDPA reasons) and stored in a local SUTD server. A copy will be used in an AWS database server to be used by the bot.
+The design of this bot allows it to be run either as a standalone module (without the database and both of OComm's backend and frontend modules) or in tandem with the rest of the automation modules. The database will be set up by this bot's SQLAlchemy's side, if it has not currently existed anyway.
+
+This bot uses SQLAlchemy for the database side. This is just nice since FastAPI integrates nicely with SQLAlchemy. It may be replaced by any equivalent SQL database (feel free to modify `dbhelper.py`). It is also possible to generate an SQLAlchemy model from an existing database by using `sqlacodegen`. Data is collected through Microsoft Forms (due to PDPA reasons) and stored in a local SUTD server. This same database copy will be used by the bot running on the same local server (using another port, different from the OComm backend module). Traffic introspection service and redirection tools can be utilized to make this process of serving multiple software on different ports easier.
 
 Since this bot is only for our private Slack workspace (and not for public distribution), we do not need to use an HTTPS certificate (take note that Slack does not allow self-signed certificates for an HTTPS-based Request URL).
 
@@ -160,17 +162,33 @@ Useful Documentations:
 
 1. Fix the issue whereby the `trigger_id` is occasionally expired (too slow response?) and catch server connection problems (`"Oops! Something went wrong."`) to prevent duplicate score submissions.
 
-2. Add the capability for the main organizer to have an overall view over the whole backend SQL database (`/viewdb` slash command).
+2. Add the capability for the main organizer to have an overall view dashboard over the whole backend SQL database (`/viewdb` slash command).
 
 3. Add the capability for the judge to modify a specific score (using buttons on the summary table).
 
-4. Make `JUDGE_LIST` and `CATEGORY_LIST` dynamic (since these changes every year). Possible to integrate this with setup scripts (and database structure).
+4. Make `JUDGE_LIST` and `CATEGORY_LIST` dynamic (since these changes every year). Possible to integrate this with setup scripts (and database structure). Perhaps add the capability for an admin to add these dynamically to the MySQL database through the Slack bot, as well as assigning categories to judges dynamically as well?
 
 5. Create different wrappers (one for each payload type) to check whether `user_id` is in `JUDGE_LIST` or not.
 
 6. Improve documentation and unit testing coverage.
 
 7. Incorporate document preparation and registration features for both participating teams and judges (later development phase).
+
+8. Add FabLab tool booking features (both general calendar view and item list view), with reminders being sent once a set maximum amount of loan time is reached, a status indicator, and the capability for OComm staff to dynamically add/edit FabLab materials/tools (and set their maximum loan time and maximum number of tools borrowed per individual person and per group).
+
+9. Add feature to randomly create groups from people in a specific channel (`#matchmaking`). If possible, in order of tech & category preference (either use graph partitioning or discrete constrained optimization; might be difficult to implement).
+
+10. Add feature to create private channels for individual groups, once all the groups are confirmed (`#<group-name>`).
+
+11. Add command to do group creation.
+
+12. Add command to list all currently-logged group names, both complete and partial.
+
+13. Add command to get ownself's user UUID (generated in MySQL, not the Slack's user ID).
+
+14. Add command to get ownself's group UUID (generated in MySQL).
+
+15. Add feature to assign people to rooms, where people with similar dietary preferences will be assigned to rooms in closer proximity to each other (maybe use a modified Gale-Shapley algorithm). Might be difficult to implement.
 
 Cheers!
 
