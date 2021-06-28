@@ -143,7 +143,7 @@ Directory listing:
 SUTD What The Hack Automation Crew:
 
 - [@TenzinCHW](https://github.com/TenzinCHW)
-- [@SolsticeDante](https://github.com/SolsticeDante)
+- [@AngstyDuck](https://github.com/AngstyDuck)
 - [@piroton](https://github.com/piroton)
 - [@FolkLoreee](https://github.com/FolkLoreee)
 - [@Cawinchan](https://github.com/Cawinchan)
