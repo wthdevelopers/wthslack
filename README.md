@@ -4,7 +4,7 @@
   <img width="420px" src="./assets/sutdwth.png">
 </p>
 
-<p align="center"><a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a></p>
+<p align="center"><a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge"></a></p>
 
 This Slack bot assists with administration, registration and judging for the purposes of SUTD What The Hack.
 
