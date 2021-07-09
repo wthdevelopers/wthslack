@@ -182,13 +182,15 @@ Useful Documentations:
 
 11. Add command to do group creation.
 
-12. Add command to list all currently-logged group names, both complete and partial.
+12. Add command to list all currently-logged group names, both complete and partial. Each group entry includes its group leader's contact number, allocated room space, and hack submission status.
 
-13. Add command to get ownself's user UUID (generated in MySQL, not the Slack's user ID).
+13. Add command to find a participant's group (along with the same corresponding aforementioned details: its group leader's contact number, allocated room space, and hack submission status).
 
-14. Add command to get ownself's group UUID (generated in MySQL).
+14. Add command to get ownself's participant UUID (generated in MySQL, not the Slack's user ID).
 
-15. Add feature to assign people to rooms, where people with similar dietary preferences will be assigned to rooms in closer proximity to each other (maybe use a modified Gale-Shapley algorithm). Might be difficult to implement.
+15. Add command to get ownself's group UUID (generated in MySQL).
+
+16. Add feature to assign people to rooms, where people with similar dietary preferences will be assigned to rooms in closer proximity to each other (maybe use a modified Gale-Shapley algorithm). Might be difficult to implement.
 
 Cheers!
 

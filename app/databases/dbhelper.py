@@ -701,7 +701,6 @@ class DBHelper:
         return json.dumps(final_result, default=alchemyencoder)
 
     # Get all teams judgeable by the specified judge
-
     def get_all_teams(self, judge_id):
         session = self.Session()
         temp_judge_categories = sorted(
@@ -765,7 +764,6 @@ class DBHelper:
             return sorted(main_list)
 
     # Get a list of the categories of a specific team to be judged
-
     def get_categories(self, judge_id, group_name):
         session = self.Session()
 
@@ -818,7 +816,6 @@ class DBHelper:
         return categories
 
     # Commit a score to the database
-
     def add_score(
         self,
         judge_id,
@@ -858,7 +855,6 @@ class DBHelper:
         self.Session.remove()
 
     # Append the remarks image URL to the score commit
-
     def add_remarks(self, judge_id, group_id, path):
         session = self.Session()
 
@@ -877,7 +873,6 @@ class DBHelper:
         self.Session.remove()
 
     # Get all scores of a specific category committed by the specified judge for editing purposes
-
     def get_all_scores(self, judge_id, category_name):
         session = self.Session()
 
@@ -907,7 +902,6 @@ class DBHelper:
         return sorted(scoreboard, key=lambda x: x[0])
 
     # Check for existence of submitted scores in Score table
-
     def check_score_existence(self, judge_id):
         session = self.Session()
 
@@ -922,7 +916,6 @@ class DBHelper:
         return bool(scores)
 
     # Return a list of the teams that have been judged by a specific judge
-
     def get_judged_teams(self, judge_id):
         session = self.Session()
 
@@ -942,7 +935,6 @@ class DBHelper:
         return sorted(list(set(name_list)))
 
     # Return a list of the categories that have been judged by a specific judge
-
     def get_judged_categories(self, judge_id):
         session = self.Session()
 
@@ -959,7 +951,6 @@ class DBHelper:
         return sorted([category for sublist in main_categories for category in sublist])
 
     # Obtain specific score row
-
     def get_specific_score(self, judge_id, group_name, category_name):
         session = self.Session()
 
@@ -989,7 +980,6 @@ class DBHelper:
         return category_score[0]
 
     # Obtain specific remark
-
     def get_specific_remark(self, judge_id, group_name):
         session = self.Session()
 
