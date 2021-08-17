@@ -41,7 +41,7 @@ CRITERIAS = ("Creativity", "Execution", "Scalability", "Environmental Impact")
 # Define percentages of the four criterias
 PERCENTAGES = (0.25, 0.25, 0.25, 0.25)
 
-# Define group size limits
-# This following set of restrictions should ideally allow and accommodate for ALL integers > MIN_GROUP_SIZE to be decomposed properly while still within the imposed limits
+# Define group size limits/bounds
+# This following set of restrictions should ideally allow and accommodate for ALL integers >= MIN_GROUP_SIZE to be decomposed properly while still within the imposed boundaries
 MIN_GROUP_SIZE = 3
 MAX_GROUP_SIZE = 5
