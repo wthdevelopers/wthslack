@@ -65,8 +65,14 @@ def get_all_integer_compositions(
 
 
 def get_eligible_compositions(
-    n: int, min_value: int = 3, max_value: int = 5
+    n: int,
+    min_value: int = settings.MIN_GROUP_SIZE,
+    max_value: int = settings.MAX_GROUP_SIZE,
 ) -> Generator[List[int], None, None]:
+    if n <= 0:
+        raise StopIteration("Invalid integer input.")
+    elif 0 < n < settings.MIN_GROUP_SIZE:
+        yield [n]
     list_of_compositions = list(get_all_integer_compositions(n, 1, lambda x: 1))
     for x in list_of_compositions:
         if min(x) >= min_value and max(x) <= max_value:
@@ -81,6 +87,8 @@ def get_random_groupings(list_of_channel_members):
     list_of_channel_members. However, this bias is unavoidable and is
     not necessarily a bad thing.
     """
+    if len(list_of_channel_members) <= 0:
+        raise StopIteration("Impossible channel member size.")
     channel_members_copy = list_of_channel_members.copy()
     secrets.SystemRandom().shuffle(channel_members_copy)
     possible_group_sizes_configurations = list(
