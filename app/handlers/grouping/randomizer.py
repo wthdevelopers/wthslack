@@ -3,14 +3,14 @@
 # of technology and category preferences
 # Created by James Raphael Tiovalen (2021)
 
-from typing import Generator, List, Callable
-import secrets
 import slack
 import ast
 import settings
 import config
+import secrets
 
 from slackers.hooks import commands
+from typing import Generator, List, Callable
 
 conv_db = config.conv_handler
 
@@ -81,7 +81,7 @@ def get_random_groupings(list_of_channel_members):
     list_of_channel_members. However, this bias is unavoidable and is
     not necessarily a bad thing.
     """
-    channel_members_copy = list_of_channel_members
+    channel_members_copy = list_of_channel_members.copy()
     secrets.SystemRandom().shuffle(channel_members_copy)
     possible_group_sizes_configurations = list(
         get_eligible_compositions(len(channel_members_copy))
