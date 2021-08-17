@@ -168,21 +168,21 @@ Useful Documentations:
 
 4. Make `JUDGE_LIST` and `CATEGORY_LIST` dynamic (since these changes every year). Possible to integrate this with setup scripts (and database structure). Perhaps add the capability for an admin to add these dynamically to the MySQL database through the Slack bot, as well as assigning categories to judges dynamically as well?
 
-5. Create different wrappers (one for each payload type) to check whether `user_id` is in `JUDGE_LIST` or not.
+5. Add a housekeeping feature to interface with and modify more database entries from the Slack workspace. This includes changing hack submission status and DevPost submission links/URLs of selected groups, changing details of participants, groups, and judges, etc.
 
-6. Improve documentation and unit testing coverage.
+6. Create different wrappers (one for each payload type) to check whether `user_id` is in `JUDGE_LIST` or not.
 
-7. Incorporate document preparation and registration features for both participating teams and judges (later development phase).
+7. Improve documentation and unit testing coverage.
 
-8. Add FabLab tool booking features (both general calendar view and item list view), with reminders being sent once a set maximum amount of loan time is reached, a status indicator, and the capability for OComm staff to dynamically add/edit FabLab materials/tools (and set their maximum loan time and maximum number of tools borrowed per individual person and per group).
+8. Incorporate document preparation and registration features for both participating teams and judges (later development phase).
 
-9. Add feature to randomly create groups from people in a specific channel (`#matchmaking`). If possible, in order of tech & category preference (either use graph partitioning or discrete constrained optimization; might be difficult to implement).
+9. Add FabLab tool booking features (both general calendar view and item list view), with reminders being sent once a set maximum amount of loan time is reached, a status indicator, and the capability for OComm staff to dynamically add/edit FabLab materials/tools (and set their maximum loan time and maximum number of tools borrowed per individual person and per group).
 
-10. Add feature to create private channels for individual groups, once all the groups are confirmed (`#<group-name>`).
+10. Add feature to create private channels for individual groups, once all the groups are confirmed (`#<group-name>`). All the respective members of each group should be automatically added to their own group channel.
 
 11. Add command to do group creation.
 
-12. Add command to list all currently-logged group names, both complete and partial. Each group entry includes its group leader's contact number, allocated room space, and hack submission status.
+12. Add command to list all currently-logged group names, both complete and partial. Each group entry includes information like its group leader's contact number, allocated room space, and hack submission status.
 
 13. Add command to find a participant's group (along with the same corresponding aforementioned details: its group leader's contact number, allocated room space, and hack submission status).
 
@@ -190,7 +190,13 @@ Useful Documentations:
 
 15. Add command to get ownself's group UUID (generated in MySQL).
 
-16. Add feature to assign people to rooms, where people with similar dietary preferences will be assigned to rooms in closer proximity to each other (maybe use a modified Gale-Shapley algorithm). Might be difficult to implement.
+16. Change all UUIDv1 to UUIDv4.
+
+17. Add a randomizer feature to randomly create groups from people in a specific channel (`#randomizer`), without confirming their groupings yet.
+
+18. Add a randomizer feature to randomly create groups from people in a specific channel (`#matchmaking`), taking into account their technology & category preferences (either use graph partitioning or discrete constrained optimization; might be difficult to implement).
+
+19. Add feature to assign people to rooms, where people with similar dietary preferences will be assigned to rooms in closer proximity to each other (maybe use a modified Gale-Shapley algorithm). Might be difficult to implement.
 
 Cheers!
 

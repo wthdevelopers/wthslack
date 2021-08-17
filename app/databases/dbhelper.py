@@ -147,6 +147,7 @@ class DBHelper:
         name = Column(Text, nullable=False)
         group_leader_id = Column(VARCHAR(36), nullable=False)
         space = Column(Text)
+        submission_url = Column(VARCHAR(2083))
         hack_submitted = Column(TINYINT(4), nullable=False, default=0)
         utensils_returned = Column(TINYINT(4), nullable=False, default=0)
 

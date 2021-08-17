@@ -43,6 +43,9 @@ import handlers.viewing.leaderboard
 import handlers.viewing.summary
 import handlers.viewing.groups
 import handlers.viewing.overall  # TODO
+import handlers.grouping.randomizer
+import handlers.grouping.matchmaking
+import handlers.grouping.create_all_group_channels
 import handlers.judging.team
 import handlers.judging.scoring
 import handlers.judging.remark
