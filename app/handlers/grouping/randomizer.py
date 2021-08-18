@@ -29,11 +29,11 @@ def get_all_integer_compositions(
     https://stackoverflow.com/a/10399049.
     Generates all interpart restricted compositions of n with first
     part >= m using restriction function sigma (in lexicographic
-    order). See Kelleher 2006, 'Encoding partitions as ascending
-    compositions' chapters 3 and 4 for details.
+    order and constant amortised time). See Kelleher 2006, 'Encoding
+    partitions as ascending compositions' chapters 3 and 4 for details.
 
     In short:
-    - For compositions, use the restriction function f(x) = 1.
+    - For (strict) compositions, use the restriction function f(x) = 1.
     - For partitions, use the restriction function f(x) = x.
 
     For future reference, we might want to consider modifying Merca's
@@ -69,6 +69,11 @@ def get_eligible_compositions(
     min_value: int = settings.MIN_GROUP_SIZE,
     max_value: int = settings.MAX_GROUP_SIZE,
 ) -> Generator[List[int], None, None]:
+    """
+    Take note that the time spent managing the memory for the big list
+    of all the compositions will definitely dominate the time cost of
+    generating them.
+    """
     if n <= 0:
         raise StopIteration("Invalid integer input.")
     elif 0 < n < settings.MIN_GROUP_SIZE:
