@@ -90,6 +90,9 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     As long as the guarantee conditions of min_value being N and
     max_value being 2N - 1 are satisfied, no groups will violate either
     bound.
+
+    Might want to consider introducing more randomness in some form by
+    using some kind of method here.
     """
     x = math.ceil(w / max_value)
     q, mod = divmod(w, x)
