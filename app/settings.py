@@ -46,3 +46,6 @@ PERCENTAGES = (0.25, 0.25, 0.25, 0.25)
 # This guaranteed condition would be satisfied for all integers >= N, where N is a positive integer, if MIN_GROUP_SIZE = N and MAX_GROUP_SIZE >= 2N - 1
 MIN_GROUP_SIZE = 3
 MAX_GROUP_SIZE = 5
+
+# This threshold is arbitrarily chosen
+RANDOMIZER_CHANNEL_SIZE_THRESHOLD = 23
