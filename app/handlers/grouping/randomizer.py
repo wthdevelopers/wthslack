@@ -61,7 +61,7 @@ def get_eligible_integer_compositions(
         yield np.array([]).astype(int)
         raise StopIteration("Invalid integer input.")
     elif 0 < n < min_value:
-        yield [n]
+        yield np.array([n]).astype(int)
     a = np.zeros(n + 1).astype(int)
     k = 1
     a[0] = m - 1
