@@ -87,6 +87,26 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     will result in less randomness. It will always prefer the balanced
     group configuration.
 
+    Note that while this algorithm will attempt to select the most
+    balanced configuration, it will not always choose the most balanced
+    due to the nature of the algorithm itself. Instead, it sacrifices
+    the choice of being the most balanced in order to allow itself to
+    self-adjust and select near-optimal configurations for prime
+    numbers of channel sizes as well. This will lead to the
+    configuration being nearly balanced, but not exactly. While it is
+    true that the most balanced configuration would have the most
+    entropy (proportional to number of ways of possible arrangements)
+    due to the pattern seen in Pascal's triangle, an algorithm that
+    prefers the most balanced configuration might not be able to
+    configure itself for prime numbers of channel sizes to fit within
+    the restrictions, which would be disastrous (assuming that such an
+    algorithm would execute trial-and-error divisions for all positive
+    integers >= 2 as part of the usual factorization procedure). If
+    there is an algorithm found that would accommodate for both prime
+    numbers of channel sizes and always prefer the most balanced
+    configuration, we would modify this function to adopt such an
+    algorithm instead.
+
     As long as the guarantee conditions of min_value being N and
     max_value being 2N - 1 are satisfied, no groups will violate either
     bound.
