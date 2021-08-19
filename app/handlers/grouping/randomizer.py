@@ -84,8 +84,8 @@ def get_eligible_integer_compositions(
 def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     """
     This algorithm is much less costly in terms of time complexity, but
-    will result in the sacrifice of less randomness. It will always
-    prefer the balanced group configuration.
+    will result in less randomness. It will always prefer the balanced
+    group configuration.
 
     As long as the guarantee conditions of min_value being N and
     max_value being 2N - 1 are satisfied, no groups will violate either
@@ -112,6 +112,17 @@ def get_random_groupings(list_of_channel_members):
     For all shufflings, the Fisher-Yates shuffle algorithm has a time
     complexity of O(n), which is the minimum time possible to shuffle
     any list in a completely random fashion.
+
+    For smaller channel sizes, we select and use the more random method
+    because of 2 reasons:
+    - It would take much less time as compared to larger channel sizes.
+    For larger channel sizes, we use the much faster and balanced
+    algorithm, but sacrificing some entropy. This is acceptable since
+    larger channel sizes would already have more entropy in the first
+    place anyway.
+    - Smaller channel sizes have less entropy in the first place due to
+    the very nature of less people being involved. As such, the
+    tradeoff of more time taken for more entropy is acceptable.
     """
     channel_size = len(list_of_channel_members)
     if channel_size <= 0:
