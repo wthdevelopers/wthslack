@@ -19,7 +19,7 @@ DB_URL = "<rdbms>+<library>://<username>:<password>@<server>:<port>/sutdwth"
 # DB_PASS = os.environ["DB_PASS"]
 
 # Use this to manage bot-user conversations (instead of a multiprocessing.Manager)
-# Read this for more info: https://stackoverflow.com/a/32825482/10243394
+# Read this for more info: https://stackoverflow.com/a/32825482
 # Set environment variable to the path of Firestore JSON Service Account Certificate
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "sample-firestore-authfile.json"
 
