@@ -87,6 +87,9 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     will result in less randomness. It will always prefer the balanced
     group configuration.
 
+    Keep in mind that we would like as much entropy as possible, within
+    relatively reasonable limits and boundaries.
+
     Note that while this algorithm will attempt to select the most
     balanced configuration, it will not always choose the most balanced
     due to the nature of the algorithm itself. Instead, it sacrifices
@@ -109,18 +112,20 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     such an algorithm exists, it should not rely on constant
     minute/minor readjustments and trial-and-errors of shaving off and
     topping up certain "buckets"/groups using a try-catch method or a
-    conditional while loop which might take a much longer time to
-    finish since that would completely defeat the point of this
-    algorithm being fast/quick enough as compared to the other one.
-    While it is true that multiples 3, 4, and 5 are more
+    conditional while loop procedure/mechanism which might take a much
+    longer time to finish since that would completely defeat the point
+    of this algorithm being fast/quick enough as compared to the other
+    one. While it is true that multiples 3, 4, and 5 are more
     numerous/denser than multiples of prime numbers (at least for
     positive integers between 3 and 1000 inclusive), it is only about a
-    10% difference or a 1.5x multiplier (~60:40). Sacrificing this time
-    save in favor of more balanced configurations for such a marginal
-    gain/benefit does not seem to be acceptable enough, at least
-    according to me (@jamestiotio). Hence, I deem that this approach
-    would be the most appropriate, at least for this very specific case
-    and for the time being.
+    10% difference or a 1.5x multiplier (~60:40). Hence, even if this
+    difference offsets the amount of entropy lost by the "shaving-off
+    and topping-up" sequence, sacrificing this possible time save in
+    favor of more balanced configurations at the cost of slower
+    performance for such a marginal gain/benefit does not seem to be
+    acceptable enough, at least according to me (@jamestiotio). Hence,
+    I deem that this approach would be the most appropriate, at least
+    for this very specific case and for the time being.
 
     As long as the guarantee conditions of min_value being N and
     max_value being 2N - 1 are satisfied, no groups will violate either
