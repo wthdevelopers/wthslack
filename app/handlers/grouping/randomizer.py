@@ -92,7 +92,7 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     due to the nature of the algorithm itself. Instead, it sacrifices
     the choice of being the most balanced in order to allow itself to
     self-adjust and select near-optimal configurations for prime
-    numbers of channel sizes as well. This will lead to the
+    numbers of channel sizes as well. Sometimes, this might lead to the
     configuration being nearly balanced, but not exactly. While it is
     true that the most balanced configuration would have the most
     entropy (proportional to number of ways of possible arrangements)
@@ -101,11 +101,11 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     configure itself for prime numbers of channel sizes to fit within
     the restrictions, which would be disastrous (assuming that such an
     algorithm would execute trial-and-error divisions for all positive
-    integers >= 2 as part of the usual factorization procedure). If
-    there is an algorithm found that would accommodate for both prime
-    numbers of channel sizes and always prefer the most balanced
-    configuration, we would modify this function to adopt such an
-    algorithm instead.
+    integers >= 2 until either sqrt(w) or w as part of the usual
+    factorization procedure). If there exists an algorithm out there
+    that we find that would both accommodate for prime numbers of
+    channel sizes and always prefer the most balanced configuration, we
+    would modify this function to adopt such an algorithm instead.
 
     As long as the guarantee conditions of min_value being N and
     max_value being 2N - 1 are satisfied, no groups will violate either
