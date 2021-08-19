@@ -105,7 +105,22 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     factorization procedure). If there exists an algorithm out there
     that we find that would both accommodate for prime numbers of
     channel sizes and always prefer the most balanced configuration, we
-    would modify this function to adopt such an algorithm instead.
+    would modify this function to adopt such an algorithm instead. If
+    such an algorithm exists, it should not rely on constant
+    minute/minor readjustments and trial-and-errors of shaving off and
+    topping up certain "buckets"/groups using a try-catch method or a
+    conditional while loop which might take a much longer time to
+    finish since that would completely defeat the point of this
+    algorithm being fast/quick enough as compared to the other one.
+    While it is true that multiples 3, 4, and 5 are more
+    numerous/denser than multiples of prime numbers (at least for
+    positive integers between 3 and 1000 inclusive), it is only about a
+    10% difference or a 1.5x multiplier (~60:40). Sacrificing this time
+    save in favor of more balanced configurations for such a marginal
+    gain/benefit does not seem to be acceptable enough, at least
+    according to me (@jamestiotio). Hence, I deem that this approach
+    would be the most appropriate, at least for this very specific case
+    and for the time being.
 
     As long as the guarantee conditions of min_value being N and
     max_value being 2N - 1 are satisfied, no groups will violate either
