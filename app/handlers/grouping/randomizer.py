@@ -85,7 +85,10 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     """
     This algorithm is much less costly in terms of time complexity, but
     will result in less randomness. It will always prefer the balanced
-    group configuration.
+    or nearly-balanced group configuration, while still accommodating
+    for prime numbers of channel sizes, as well as achieving this goal
+    in the least number of groups possible (just in case there is a
+    limit on the total number of groups).
 
     Keep in mind that we would like as much entropy as possible, within
     relatively reasonable limits and boundaries.
