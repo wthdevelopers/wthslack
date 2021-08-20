@@ -168,6 +168,9 @@ def get_random_groupings(list_of_channel_members):
     - Smaller channel sizes have less entropy in the first place due to
     the very nature of less people being involved. As such, the
     tradeoff of more time taken for more entropy is acceptable.
+    
+    Do let @jamestiotio know if you are able to catch any other edge
+    cases, caveats, loopholes or tricky configurations.
     """
     channel_size = len(list_of_channel_members)
     if channel_size <= 0:
