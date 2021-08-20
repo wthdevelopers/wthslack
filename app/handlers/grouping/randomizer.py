@@ -128,7 +128,9 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     performance for such a marginal gain/benefit does not seem to be
     acceptable enough, at least according to me (@jamestiotio). Hence,
     I deem that this approach would be the most appropriate, at least
-    for this very specific case and for the time being.
+    for this very specific case and for the time being. Ideally, such
+    an algorithm should also not skimp/slack off on keeping the number
+    of groups as low as possible in the name of balance.
 
     As long as the guarantee conditions of min_value being N and
     max_value being 2N - 1 are satisfied, no groups will violate either

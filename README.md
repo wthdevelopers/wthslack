@@ -15,7 +15,7 @@ This codebase is made open to the public to prove that the score processing duri
 - [Description](#description)
 - [Installation](#installation)
 - [Slack App Configuration](#slack-app-configuration)
-- [Documentation](#documentation)
+- [Usage](#usage)
 - [Acknowledgements](#acknowledgements)
 - [TODO](#todo)
 
@@ -92,7 +92,7 @@ With the current app design, the corresponding various Request URL endpoints are
       * `message.im`
       * `message.mpim`
 
-## Documentation
+## Usage
 
 List of features that this bot provides:
 
