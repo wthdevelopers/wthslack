@@ -24,6 +24,7 @@ DB_URL = "<rdbms>+<library>://<username>:<password>@<server>:<port>/sutdwth"
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "sample-firestore-authfile.json"
 
 # Need to make these dynamic and editable from year to year instead of hardcoded (input using bash script provided)
+# Note that these are user IDs (even for the bot), instead of bot/team/channel IDs
 BOT_ID = ""
 MASTER_ID = ""
 ORGANIZER_IDS = [""]
