@@ -198,11 +198,9 @@ Useful Documentations:
 
 16. Change all UUIDv1 to UUIDv4.
 
-17. Add a randomizer feature to randomly create groups from people in a specific channel (`#randomizer`), without confirming their groupings yet.
+17. Add a randomizer feature to randomly create groups from people in a specific channel (`#matchmaking`), taking into account their technology & category preferences (either use graph partitioning with a recursive Kernighan-Lin algorithm or discrete constrained optimization). Might be difficult to implement.
 
-18. Add a randomizer feature to randomly create groups from people in a specific channel (`#matchmaking`), taking into account their technology & category preferences (either use graph partitioning with a recursive Kernighan-Lin algorithm or discrete constrained optimization). Might be difficult to implement.
-
-19. Add feature to assign people to rooms, where people with similar dietary preferences will be assigned to rooms in closer proximity to each other (maybe use a modified Gale-Shapley algorithm). Might be difficult to implement.
+18. Add feature to assign people to rooms, where people with similar dietary preferences will be assigned to rooms in closer proximity to each other (maybe use a modified Gale-Shapley algorithm). Might be difficult to implement.
 
 Cheers!
 
