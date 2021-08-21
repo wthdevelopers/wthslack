@@ -4,7 +4,7 @@
   <img width="420px" src="./assets/sutdwth.png">
 </p>
 
-<p align="center"><a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a></p>
+<p align="center"><a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge"></a></p>
 
 This Slack bot assists with administration, registration and judging for the purposes of SUTD What The Hack.
 
@@ -15,7 +15,7 @@ This codebase is made open to the public to prove that the score processing duri
 - [Description](#description)
 - [Installation](#installation)
 - [Slack App Configuration](#slack-app-configuration)
-- [Documentation](#documentation)
+- [Usage](#usage)
 - [Acknowledgements](#acknowledgements)
 - [TODO](#todo)
 
@@ -23,7 +23,9 @@ This codebase is made open to the public to prove that the score processing duri
 
 For the Slack bot side, we are using the Slackers Python Library, which follows the Pydantic philosophy. We built the Slack bot from the ground up (quite low-level) instead of using certain bot frameworks that currently already exist since it provides us with more flexibility with the whole FastAPI server setup and database management (considering that Slack's API changes quite rapidly). We are using FastAPI equipped with an ASGI server since it provides easier asynchronous management and speedier service for the Slack bot (by using Starlette and Uvicorn). Thus, please take note that at the moment, Windows does not support `uvloop`, which is used by this Slack bot.
 
-This bot uses SQLAlchemy for the database side. This is just nice since FastAPI integrates nicely with SQLAlchemy. It may be replaced by any equivalent SQL database (feel free to modify `dbhelper.py`). It is also possible to generate an SQLAlchemy model from an existing database by using `sqlacodegen`. Data is collected through Microsoft Forms (due to PDPA reasons) and stored in a local SUTD server. A copy will be used in an AWS database server to be used by the bot.
+The design of this bot allows it to be run either as a standalone module (without the database and both of OComm's backend and frontend modules) or in tandem with the rest of the automation modules. The database will be set up by this bot's SQLAlchemy's side, if it has not currently existed anyway.
+
+This bot uses SQLAlchemy for the database side. This is just nice since FastAPI integrates nicely with SQLAlchemy. It may be replaced by any equivalent SQL database (feel free to modify `dbhelper.py`). It is also possible to generate an SQLAlchemy model from an existing database by using `sqlacodegen`. Data is collected through Microsoft Forms (due to PDPA reasons) and stored in a local SUTD server. This same database copy will be used by the bot running on the same local server (using another port, different from the OComm backend module). Traffic introspection service and redirection tools can be utilized to make this process of serving multiple software on different ports easier.
 
 Since this bot is only for our private Slack workspace (and not for public distribution), we do not need to use an HTTPS certificate (take note that Slack does not allow self-signed certificates for an HTTPS-based Request URL).
 
@@ -90,7 +92,7 @@ With the current app design, the corresponding various Request URL endpoints are
       * `message.im`
       * `message.mpim`
 
-## Documentation
+## Usage
 
 List of features that this bot provides:
 
@@ -108,6 +110,7 @@ Available slash commands to be used:
 | --- | --- |
 | `/leaderboard` | Display the leaderboard 🏅 |
 | `/viewdb` | Display an overall view of the whole database (WIP) |
+| `/randomize` | Execute the group randomizer algorithm 🔀 |
 
 | Judge Commands | Description |
 | --- | --- |
@@ -126,8 +129,13 @@ Directory listing:
     - `firebaser.py`: Cloud Firestore helper functions
     - `dbhelper.py`: SQLAlchemy helper functions
   - `handlers`
+    - `admin`: Command handlers that are related to administrative matters
     - `editing`: Command handlers that are related to editing purposes
+    - `fablab`: Command handlers that are related to the SUTD Fabrication Laboratory matters
+    - `grouping`: Command handlers that are related to group matters
+    - `housekeeping`: Command handlers that are related to housekeeping purposes
     - `judging`: Command handlers that are related to judging purposes
+    - `registration`: Command handlers that are related to registration matters
     - `utils`: Command handlers that are related to other miscellaneous purposes
     - `viewing`: Command handlers that are related to database viewing purposes
 - `assets`: Other useful assets
@@ -141,7 +149,7 @@ Directory listing:
 SUTD What The Hack Automation Crew:
 
 - [@TenzinCHW](https://github.com/TenzinCHW)
-- [@SolsticeDante](https://github.com/SolsticeDante)
+- [@AngstyDuck](https://github.com/AngstyDuck)
 - [@piroton](https://github.com/piroton)
 - [@FolkLoreee](https://github.com/FolkLoreee)
 - [@Cawinchan](https://github.com/Cawinchan)
@@ -160,17 +168,39 @@ Useful Documentations:
 
 1. Fix the issue whereby the `trigger_id` is occasionally expired (too slow response?) and catch server connection problems (`"Oops! Something went wrong."`) to prevent duplicate score submissions.
 
-2. Add the capability for the main organizer to have an overall view over the whole backend SQL database (`/viewdb` slash command).
+2. Add the capability for the main organizer to have an overall view dashboard over the whole backend SQL database (`/viewdb` slash command).
 
 3. Add the capability for the judge to modify a specific score (using buttons on the summary table).
 
-4. Make `JUDGE_LIST` and `CATEGORY_LIST` dynamic (since these changes every year). Possible to integrate this with setup scripts (and database structure).
+4. Make `JUDGE_LIST` and `CATEGORY_LIST` dynamic (since these changes every year). Possible to integrate this with setup scripts (and database structure). Perhaps add the capability for an admin to add these dynamically to the MySQL database through the Slack bot, as well as assigning categories to judges dynamically as well?
 
-5. Create different wrappers (one for each payload type) to check whether `user_id` is in `JUDGE_LIST` or not.
+5. Add a housekeeping feature to interface with and modify more database entries from the Slack workspace. This includes changing hack submission status and DevPost submission links/URLs of selected groups, changing details of participants, groups, and judges, etc.
 
-6. Improve documentation and unit testing coverage.
+6. Create different wrappers (one for each payload type) to check whether `user_id` is in `JUDGE_LIST` or not.
 
-7. Incorporate document preparation and registration features for both participating teams and judges (later development phase).
+7. Improve documentation and unit testing coverage.
+
+8. Incorporate document preparation and registration features for both participating teams and judges (later development phase).
+
+9. Add FabLab tool booking features (both general calendar view and item list view), with reminders being sent once a set maximum amount of loan time is reached, a status indicator, and the capability for OComm staff to dynamically add/edit FabLab materials/tools (and set their maximum loan time and maximum number of tools borrowed per individual person and per group).
+
+10. Add feature to create private channels for individual groups, once all the groups are confirmed (`#<group-name>`). All the respective members of each group should be automatically added to their own group channel.
+
+11. Add command to do group creation.
+
+12. Add command to list all currently-logged group names, both complete and partial. Each group entry includes information like its group leader's contact number, allocated room space, and hack submission status.
+
+13. Add command to find a participant's group (along with the same corresponding aforementioned details: its group leader's contact number, allocated room space, and hack submission status).
+
+14. Add command to get ownself's participant UUID (generated in MySQL, not the Slack's user ID).
+
+15. Add command to get ownself's group UUID (generated in MySQL).
+
+16. Change all UUIDv1 to UUIDv4.
+
+17. Add a randomizer feature to randomly create groups from people in a specific channel (`#matchmaking`), taking into account their technology & category preferences (either use graph partitioning with a recursive Kernighan-Lin algorithm or discrete constrained optimization). Might be difficult to implement.
+
+18. Add feature to assign people to rooms, where people with similar dietary preferences will be assigned to rooms in closer proximity to each other (maybe use a modified Gale-Shapley algorithm). Might be difficult to implement.
 
 Cheers!
 

@@ -19,20 +19,22 @@ DB_URL = "<rdbms>+<library>://<username>:<password>@<server>:<port>/sutdwth"
 # DB_PASS = os.environ["DB_PASS"]
 
 # Use this to manage bot-user conversations (instead of a multiprocessing.Manager)
-# Read this for more info: https://stackoverflow.com/a/32825482/10243394
+# Read this for more info: https://stackoverflow.com/a/32825482
 # Set environment variable to the path of Firestore JSON Service Account Certificate
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "sample-firestore-authfile.json"
 
 # Need to make these dynamic and editable from year to year instead of hardcoded (input using bash script provided)
+# Note that these are user IDs (even for the bot), instead of bot/team/channel IDs
 BOT_ID = ""
 MASTER_ID = ""
+ORGANIZER_IDS = [""]
 
 # Define categories
 CATEGORIES = (
     "Built Environment",
-    "Transportation",
     "Waste Management",
-    "Waste Reduction",
+    "Natural Environment",
+    "Transportation",
 )
 
 # Define criterias
@@ -40,3 +42,12 @@ CRITERIAS = ("Creativity", "Execution", "Scalability", "Environmental Impact")
 
 # Define percentages of the four criterias
 PERCENTAGES = (0.25, 0.25, 0.25, 0.25)
+
+# Define group size limits/bounds
+# This following set of restrictions should ideally allow and accommodate for ALL integers >= MIN_GROUP_SIZE to be decomposed properly while still within the imposed boundaries
+# This guaranteed condition would be satisfied for all integers >= N, where N is a positive integer, if MIN_GROUP_SIZE = N and MAX_GROUP_SIZE >= 2N - 1
+MIN_GROUP_SIZE = 3
+MAX_GROUP_SIZE = 5
+
+# This threshold is arbitrarily chosen
+RANDOMIZER_CHANNEL_SIZE_THRESHOLD = 23

@@ -31,7 +31,8 @@ def start(payload):
             "• /cancel to abandon the current ongoing conversation.\r\n"
             "• /summary to view your scoring progress so far.\r\n"
             "• /leaderboard to display the leaderboard.\r\n"
-            "• /viewdb to display an overall view of the whole database.\r\n\r\n"
+            "• /viewdb to display an overall view of the whole database.\r\n"
+            "• /randomize to execute the group randomizer algorithm.\r\n\r\n"
             "For judges, please take note that your conversation state is different across different channels and workspaces.\r\n"
         )
         config.web_client.chat_postMessage(channel=channel, text=message)

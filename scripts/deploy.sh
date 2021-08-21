@@ -6,8 +6,8 @@
 
 sudo apt update
 
-# Install dependencies for MySQL
-sudo apt install -y mysql-server
+# Install dependencies for MySQL 8.0
+sudo apt install -y mysql-server mysql-client
 
 # Configure MySQL to start upon boot and start MySQL
 sudo systemctl enable mysql.service

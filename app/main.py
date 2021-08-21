@@ -27,9 +27,25 @@ import config
 # Import handlers
 import handlers.utils.start
 import handlers.utils.cancel
+import handlers.admin.find_assigned_group
+import handlers.admin.view_self_group_id
+import handlers.admin.view_self_participant_id
+import handlers.housekeeping.add_group
+import handlers.housekeeping.add_judge
+import handlers.housekeeping.add_participant
+import handlers.housekeeping.delete_group
+import handlers.housekeeping.delete_judge
+import handlers.housekeeping.delete_participant
+import handlers.housekeeping.edit_group
+import handlers.housekeeping.edit_judge
+import handlers.housekeeping.edit_participant
 import handlers.viewing.leaderboard
 import handlers.viewing.summary
+import handlers.viewing.groups
 import handlers.viewing.overall  # TODO
+import handlers.grouping.randomizer
+import handlers.grouping.matchmaking
+import handlers.grouping.create_all_group_channels
 import handlers.judging.team
 import handlers.judging.scoring
 import handlers.judging.remark
