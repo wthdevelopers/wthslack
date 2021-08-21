@@ -30,9 +30,9 @@ MASTER_ID = ""
 # Define categories
 CATEGORIES = (
     "Built Environment",
-    "Transportation",
     "Waste Management",
-    "Waste Reduction",
+    "Natural Environment",
+    "Transportation",
 )
 
 # Define criterias
