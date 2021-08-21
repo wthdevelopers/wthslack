@@ -274,7 +274,7 @@ class DBHelper:
             return f"<Participant Next Of Kin ID: {self.NoK_id}>"
 
     class ParticipantPreferenceTechnologyofInterest(Base):
-        __tablename__ = "_participant_preference_technology_of_interest"
+        __tablename__ = "_participant_preference_toi"
 
         technology_of_interest_id = Column(
             VARCHAR(36), primary_key=True, nullable=False
@@ -285,7 +285,7 @@ class DBHelper:
             return f"<Participant Preference Technology of Interest ID: {self.technology_of_interest_id}>"
 
     class ParticipantPreferenceTechnologyofInterestParticipant(Base):
-        __tablename__ = "_participant_preference_technology_of_interest_participant"
+        __tablename__ = "_participant_preference_toi_participant"
 
         technology_of_interest_participant_id = Column(
             VARCHAR(36), primary_key=True, nullable=False

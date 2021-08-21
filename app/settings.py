@@ -26,6 +26,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "sample-firestore-authfile.json"
 # Need to make these dynamic and editable from year to year instead of hardcoded (input using bash script provided)
 BOT_ID = ""
 MASTER_ID = ""
+ORGANIZER_IDS = [""]
 
 # Define categories
 CATEGORIES = (

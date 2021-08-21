@@ -110,6 +110,7 @@ Available slash commands to be used:
 | --- | --- |
 | `/leaderboard` | Display the leaderboard 🏅 |
 | `/viewdb` | Display an overall view of the whole database (WIP) |
+| `/randomize` | Execute the group randomizer algorithm 🔀 |
 
 | Judge Commands | Description |
 | --- | --- |
@@ -128,8 +129,13 @@ Directory listing:
     - `firebaser.py`: Cloud Firestore helper functions
     - `dbhelper.py`: SQLAlchemy helper functions
   - `handlers`
+    - `admin`: Command handlers that are related to administrative matters
     - `editing`: Command handlers that are related to editing purposes
+    - `fablab`: Command handlers that are related to the SUTD Fabrication Laboratory matters
+    - `grouping`: Command handlers that are related to group matters
+    - `housekeeping`: Command handlers that are related to housekeeping purposes
     - `judging`: Command handlers that are related to judging purposes
+    - `registration`: Command handlers that are related to registration matters
     - `utils`: Command handlers that are related to other miscellaneous purposes
     - `viewing`: Command handlers that are related to database viewing purposes
 - `assets`: Other useful assets

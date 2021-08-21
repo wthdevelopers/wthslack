@@ -18,8 +18,63 @@ from typing import Generator, Callable
 conv_db = config.conv_handler
 
 
-@commands.on("randomizer")
-def randomizer(payload):
+@commands.on("randomize")
+async def randomizer(payload):
+    channel = payload["channel_id"]
+    user_id = payload["user_id"]
+
+    channel_name_checking_response = await config.web_client.conversations_info(
+        channel=channel, include_locale=True, include_num_members=True
+    )
+
+    channel_name = channel_name_checking_response["channel"]["name"]
+
+    if channel_name == "randomizer":
+        await config.web_client.chat_postMessage(
+            channel=channel,
+            text=f"Hi <@{user_id}>! Please give us some time to run the randomizer algorithm...",
+        )
+
+        channel_members_response = await config.web_client.conversations_members(
+            channel=channel, limit=1000
+        )
+
+        channel_members = channel_members_response["members"]
+
+        # Remove organizers, admin and the bot itself from the list
+        channel_members.remove(settings.MASTER_ID)
+        channel_members.remove(settings.BOT_ID)
+        for organizer_id in settings.ORGANIZER_IDS:
+            channel_members.remove(organizer_id)
+
+        groups = list(get_random_groupings(channel_members))
+
+        await config.web_client.chat_postMessage(
+            channel=channel,
+            text=f"These are the generated random groups:",
+        )
+
+        for idx, group in enumerate(groups):
+            group_members = ["<@" + member + ">" for member in group]
+            await config.web_client.chat_postMessage(
+                channel=channel,
+                text=f"Group {idx + 1}: {', '.join(group_members)}",
+            )
+
+        await config.web_client.chat_postMessage(
+            channel=channel,
+            text=(
+                f"Do note that the randomized groupings are not confirmed yet."
+                "Please communicate and coordinate with your randomly assigned new teammates to get to know each other more and check whether all of you accept this grouping or not."
+                "After that, do assign a group leader and register in the official form accordingly."
+            ),
+        )
+
+    else:
+        await config.web_client.chat_postMessage(
+            channel=channel,
+            text=f"Hi <@{user_id}>! Please run this command in the #randomizer channel. Thank you!",
+        )
 
     return
 
