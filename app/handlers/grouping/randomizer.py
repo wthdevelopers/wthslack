@@ -66,7 +66,7 @@ async def randomizer(payload):
             text=(
                 f"Do note that the randomized groupings are not confirmed yet."
                 "Please communicate and coordinate with your randomly assigned new teammates to get to know each other more and check whether all of you accept this grouping or not."
-                "After that, do assign a group leader and register in the official form accordingly."
+                "After that, do collectively decide and agree on a group name, assign a group leader, and register in the official form accordingly."
             ),
         )
 

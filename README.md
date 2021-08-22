@@ -29,6 +29,8 @@ This bot uses SQLAlchemy for the database side. This is just nice since FastAPI 
 
 Since this bot is only for our private Slack workspace (and not for public distribution), we do not need to use an HTTPS certificate (take note that Slack does not allow self-signed certificates for an HTTPS-based Request URL).
 
+This Slack bot was originally developed before [this Slack Bolt for Python library](https://github.com/slackapi/bolt-python) was created. For future developments, we can either stay and stick to the current [`slackers`](https://github.com/uhavin/slackers) library or perform a migration to use Bolt instead. Either way, the overall structure of this Slack bot's codebase should remain largely similar.
+
 ## Installation
 
 After cloning this repo, just populate the necessary constants in [`settings.py`](./app/settings.py) and run [`deploy.sh`](./scripts/deploy.sh) from the [`scripts`](./scripts) folder as the current working directory before the hackathon starts to initialize all configurations. It provides an automated setting-up of:
