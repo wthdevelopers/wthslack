@@ -27,7 +27,14 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "sample-firestore-authfile.json"
 # Note that these are user IDs (even for the bot), instead of bot/team/channel/enterprise IDs
 BOT_ID = ""
 MASTER_ID = ""
-ORGANIZER_IDS = [""]
+ORGANIZER_IDS = []
+
+# This hardcoding method is hacky and stupid, but there is no Slack API endpoint to find the channel ID by channel name
+# The alternative way is to do a for loop and check through all the channels obtained from this endpoint: https://api.slack.com/methods/conversations.list
+# However, that would be inefficient, so nope
+# It's a real shame, indeed
+TAVERN_CHANNEL_ID = ""
+RANDOMIZER_CHANNEL_ID = ""
 
 # Define categories
 CATEGORIES = (

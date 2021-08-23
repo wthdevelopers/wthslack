@@ -9,11 +9,9 @@ import settings
 import config
 import math
 import secrets
-import numpy as np
-import numpy.typing as npt
 
 from slackers.hooks import commands
-from typing import Generator, Callable
+from typing import Generator, Callable, List
 
 conv_db = config.conv_handler
 
@@ -49,31 +47,35 @@ async def randomizer(payload):
 
         groups = list(get_random_groupings(channel_members))
 
-        await config.web_client.chat_postMessage(
-            channel=channel,
-            text=f"These are the generated random groups:",
-        )
+        randomized_grouping_message = ""
 
         for idx, group in enumerate(groups):
             group_members = ["<@" + member + ">" for member in group]
-            await config.web_client.chat_postMessage(
-                channel=channel,
-                text=f"Group {idx + 1}: {', '.join(group_members)}",
+            randomized_grouping_message += (
+                f"Group {idx + 1}: {', '.join(group_members)}\r\n"
             )
 
         await config.web_client.chat_postMessage(
             channel=channel,
             text=(
-                f"Do note that the randomized groupings are not confirmed yet."
-                "Please communicate and coordinate with your randomly assigned new teammates to get to know each other more and check whether all of you accept this grouping or not."
-                "After that, do collectively decide and agree on a group name, assign a group leader, and register in the official form accordingly."
+                f"These are the generated random groups:\r\n\r\n{randomized_grouping_message}"
+            ),
+        )
+
+        await config.web_client.chat_postMessage(
+            channel=channel,
+            text=(
+                "Do note that the randomized groupings are not confirmed yet. "
+                "Please communicate and coordinate with your randomly assigned new teammates to get to know each other more and check whether all of you accept this grouping or not. "
+                "After that, do collectively decide and agree on the group particulars, assign a group leader, and register in the official form accordingly.\r\n\r\n"
+                f"If you feel that your randomly assigned group is not the best fit for you, feel free to go to the <#{settings.TAVERN_CHANNEL_ID}> and talk to other people to form groups!"
             ),
         )
 
     else:
         await config.web_client.chat_postMessage(
             channel=channel,
-            text=f"Hi <@{user_id}>! Please run this command in the #randomizer channel. Thank you!",
+            text=f"Hi <@{user_id}>! Please run this command in the <#{settings.RANDOMIZER_CHANNEL_ID}> channel. Thank you!",
         )
 
     return
@@ -81,7 +83,7 @@ async def randomizer(payload):
 
 def get_eligible_integer_compositions(
     n: int, m: int, sigma: Callable, min_value: int, max_value: int
-) -> Generator[np.ndarray, None, None]:
+) -> Generator[List[int], None, None]:
     """
     This algorithm was modified and obtained from
     https://stackoverflow.com/a/10399049.
@@ -93,8 +95,6 @@ def get_eligible_integer_compositions(
     In short:
     - For (strict) compositions, use the restriction function f(x) = 1.
     - For partitions, use the restriction function f(x) = x.
-
-    We use NumPy arrays to use slightly less memory.
 
     Each group sizes configuration has an equal, uniform probability of
     being chosen. Hence, there would be no bias towards any specific
@@ -113,11 +113,11 @@ def get_eligible_integer_compositions(
     if n < 0:
         raise StopIteration("Invalid integer input.")
     elif n == 0:
-        yield np.array([]).astype(int)
+        yield []
         raise StopIteration("Invalid integer input.")
     elif 0 < n < min_value:
-        yield np.array([n]).astype(int)
-    a = np.zeros(n + 1).astype(int)
+        yield [n]
+    a = [0 for _ in range(n + 1)]
     k = 1
     a[0] = m - 1
     a[1] = n - m + 1
@@ -132,11 +132,13 @@ def get_eligible_integer_compositions(
             k += 1
         a[k] = x + y
         z = a[: k + 1]
-        if z.min() >= min_value and z.max() <= max_value:
-            yield np.array(z)
+        if min(z) >= min_value and max(z) <= max_value:
+            yield z
 
 
-def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
+def get_balanced_grouping_allocation(
+    w: int, min_value: int, max_value: int
+) -> List[int]:
     """
     This algorithm is much less costly in terms of time complexity, but
     will result in less randomness. It will always prefer the balanced
@@ -187,27 +189,30 @@ def get_balanced_grouping_allocation(w: int, min_value: int, max_value: int):
     an algorithm should also not skimp/slack off on keeping the number
     of groups as low as possible in the name of balance.
 
-    As long as the guarantee conditions of min_value being N and
-    max_value being 2N - 1 are satisfied, no groups will violate either
+    As long as the guarantee conditions of min_value = N and
+    max_value >= 2N - 1 are satisfied, no groups will violate either
     bound.
+
+    Keep in mind that w > max_value most of the time.
 
     Might want to consider introducing more randomness in some form by
     using some kind of method here.
     """
-    x = math.ceil(w / max_value)
+    x = -(w // -max_value)
     q, mod = divmod(w, x)
-    a = np.empty(x)
-    a.fill(q)
-    a[0:mod] += 1
-    return np.array(a)
+    a = [q for _ in range(x)]
+    for i in range(mod):
+        a[i] += 1
+    return a
 
 
-def get_random_groupings(list_of_channel_members):
+def get_random_groupings(
+    list_of_channel_members: List[str],
+) -> Generator[List[str], None, None]:
     """
     Take note that the time spent managing the memory for the big list
     of all the compositions will definitely dominate the time cost of
-    generating them. We only convert the selected NumPy array to a
-    Python list here to save processing time.
+    generating them.
 
     For all shufflings, the Fisher-Yates shuffle algorithm has a time
     complexity of O(n), which is the minimum time possible to shuffle
@@ -242,8 +247,8 @@ def get_random_groupings(list_of_channel_members):
                 settings.MAX_GROUP_SIZE,
             )
         )
-        selected_group_sizes_configuration = (
-            secrets.choice(possible_group_sizes_configurations).astype(int).tolist()
+        selected_group_sizes_configuration = secrets.choice(
+            possible_group_sizes_configurations
         )
         secrets.SystemRandom().shuffle(selected_group_sizes_configuration)
         curr = 0
@@ -251,14 +256,10 @@ def get_random_groupings(list_of_channel_members):
             yield channel_members_copy[curr : curr + chunk_size]
             curr += chunk_size
     else:
-        group_sizes_configuration = (
-            get_balanced_grouping_allocation(
-                channel_size,
-                settings.MIN_GROUP_SIZE,
-                settings.MAX_GROUP_SIZE,
-            )
-            .astype(int)
-            .tolist()
+        group_sizes_configuration = get_balanced_grouping_allocation(
+            channel_size,
+            settings.MIN_GROUP_SIZE,
+            settings.MAX_GROUP_SIZE,
         )
         secrets.SystemRandom().shuffle(group_sizes_configuration)
         curr = 0
