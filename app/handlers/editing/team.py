@@ -54,68 +54,71 @@ def choose_team(payload):
                         }
                     )
 
-                try:
-                    config.web_client.views_open(
-                        trigger_id=trigger_id,
-                        view={
-                            "type": "modal",
-                            "title": {
-                                "type": "plain_text",
-                                "text": "Judging Process",
-                                "emoji": True,
-                            },
-                            "submit": {
-                                "type": "plain_text",
-                                "text": "Select",
-                                "emoji": True,
-                            },
-                            "close": {
-                                "type": "plain_text",
-                                "text": "Cancel",
-                                "emoji": True,
-                            },
-                            "blocks": [
-                                {
-                                    "type": "section",
-                                    "block_id": "edit_team_selection_block",
-                                    "text": {
-                                        "type": "mrkdwn",
-                                        "text": "*Please select a team to edit:*",
-                                    },
-                                    "accessory": {
-                                        "action_id": "edit_team_choice",
-                                        "type": "static_select",
-                                        "placeholder": {
-                                            "type": "plain_text",
-                                            "text": "Select a team name",
-                                            "emoji": True,
+                if len(team_list) <= settings.NUMBER_OF_GROUPS_LIMIT:
+                    try:
+                        config.web_client.views_open(
+                            trigger_id=trigger_id,
+                            view={
+                                "type": "modal",
+                                "title": {
+                                    "type": "plain_text",
+                                    "text": "Judging Process",
+                                    "emoji": True,
+                                },
+                                "submit": {
+                                    "type": "plain_text",
+                                    "text": "Select",
+                                    "emoji": True,
+                                },
+                                "close": {
+                                    "type": "plain_text",
+                                    "text": "Cancel",
+                                    "emoji": True,
+                                },
+                                "blocks": [
+                                    {
+                                        "type": "section",
+                                        "block_id": "edit_team_selection_block",
+                                        "text": {
+                                            "type": "mrkdwn",
+                                            "text": "*Please select a team to edit:*",
                                         },
-                                        "options": team_list,  # Max no. of "options" is 100, which is a Slack API limitation
-                                    },
-                                }
-                            ],
-                            "callback_id": "edit_team_choosing",
-                            "notify_on_close": True,
-                            "private_metadata": channel,  # Pass on the channel id
-                        },
-                    )
+                                        "accessory": {
+                                            "action_id": "edit_team_choice",
+                                            "type": "static_select",
+                                            "placeholder": {
+                                                "type": "plain_text",
+                                                "text": "Select a team name",
+                                                "emoji": True,
+                                            },
+                                            "options": team_list,  # Max no. of "options" is 100, which is a Slack API limitation
+                                        },
+                                    }
+                                ],
+                                "callback_id": "edit_team_choosing",
+                                "notify_on_close": True,
+                                "private_metadata": channel,  # Pass on the channel id
+                            },
+                        )
 
-                    # Conduct the change of state after opening the modal view
-                    conv_db.change_state(channel, user_id, config.EDIT_TEAM)
+                        # Conduct the change of state after opening the modal view
+                        conv_db.change_state(channel, user_id, config.EDIT_TEAM)
 
-                # Catch expired trigger_id error
-                except slack.errors.SlackApiError as e:
-                    config.web_client.chat_postMessage(
-                        channel=channel,
-                        text=f"Hi <@{user_id}>! It seems that something went wrong. Feel free to retry the editing process. Apologies!",
-                    )
+                    # Catch expired trigger_id error
+                    except slack.errors.SlackApiError as e:
+                        config.web_client.chat_postMessage(
+                            channel=channel,
+                            text=f"Hi <@{user_id}>! It seems that something went wrong. Feel free to retry the editing process. Apologies!",
+                        )
 
-                    status = config.db.check_score_existence(user_id)
+                        status = config.db.check_score_existence(user_id)
 
-                    if status:
-                        conv_db.change_state(channel, user_id, config.CONVERSATION_END)
-                    else:
-                        conv_db.change_state(channel, user_id, config.INITIAL_STATE)
+                        if status:
+                            conv_db.change_state(
+                                channel, user_id, config.CONVERSATION_END
+                            )
+                        else:
+                            conv_db.change_state(channel, user_id, config.INITIAL_STATE)
 
         else:
             config.fallback.fallback(payload)

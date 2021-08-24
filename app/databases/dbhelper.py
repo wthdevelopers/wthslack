@@ -55,9 +55,8 @@ class DBHelper:
     class Judge(Base):
         __tablename__ = "judge"
 
-        judge_id = Column(
-            VARCHAR(36), primary_key=True, nullable=False, default=func.uuid()
-        )
+        # This ID is the judge's Slack user ID (instead of UUID)
+        judge_id = Column(VARCHAR(36), primary_key=True, nullable=False)
         name = Column(Text, nullable=False)
 
         def __repr__(self):

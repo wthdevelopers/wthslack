@@ -46,7 +46,6 @@ def score_team(payload):
                 ]
 
                 for criteria in settings.CRITERIAS:
-
                     category_block.append(
                         {
                             "type": "input",
@@ -56,7 +55,7 @@ def score_team(payload):
                                 "action_id": f"{category}_{criteria}_score",
                                 "multiline": False,
                                 "initial_value": "0",
-                                "max_length": 9,  # Upper limit of INTEGER(11) has 10 digits
+                                "max_length": settings.SCORE_DIGITS_LIMIT,
                             },
                             "label": {
                                 "type": "plain_text",
