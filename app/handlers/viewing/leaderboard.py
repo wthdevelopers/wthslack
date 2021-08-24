@@ -48,6 +48,7 @@ def leaderboard(payload):
             )
 
         else:
+            limit = settings.MAX_LEADERBOARD_ENTRIES_PER_CATEGORY_LIMIT
             # Max no. of "fields" is 10, which is a Slack API limitation
             config.web_client.chat_postMessage(
                 channel=channel,
@@ -56,7 +57,7 @@ def leaderboard(payload):
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": f"Hello <@{user_id}>!\r\nThis is the Top 10 Leaderboard so far:",
+                            "text": f"Hello <@{user_id}>!\r\nThis is the Top {limit} Leaderboard so far:",
                         },
                     },
                     {"type": "divider"},
@@ -67,7 +68,7 @@ def leaderboard(payload):
                             "text": f"*{settings.CATEGORIES[0]} Category:*",
                         },
                     },
-                    {"type": "section", "fields": init(settings.CATEGORIES[0])[:10]},
+                    {"type": "section", "fields": init(settings.CATEGORIES[0])[:limit]},
                     {"type": "divider"},
                     {
                         "type": "section",
@@ -76,7 +77,7 @@ def leaderboard(payload):
                             "text": f"*{settings.CATEGORIES[1]} Category:*",
                         },
                     },
-                    {"type": "section", "fields": init(settings.CATEGORIES[1])[:10]},
+                    {"type": "section", "fields": init(settings.CATEGORIES[1])[:limit]},
                     {"type": "divider"},
                     {
                         "type": "section",
@@ -85,7 +86,7 @@ def leaderboard(payload):
                             "text": f"*{settings.CATEGORIES[2]} Category:*",
                         },
                     },
-                    {"type": "section", "fields": init(settings.CATEGORIES[2])[:10]},
+                    {"type": "section", "fields": init(settings.CATEGORIES[2])[:limit]},
                     {"type": "divider"},
                     {
                         "type": "section",
@@ -94,7 +95,7 @@ def leaderboard(payload):
                             "text": f"*{settings.CATEGORIES[3]} Category:*",
                         },
                     },
-                    {"type": "section", "fields": init(settings.CATEGORIES[3])[:10]},
+                    {"type": "section", "fields": init(settings.CATEGORIES[3])[:limit]},
                 ],
             )
 

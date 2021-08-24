@@ -58,3 +58,11 @@ MAX_GROUP_SIZE = 5
 
 # This threshold is arbitrarily chosen
 RANDOMIZER_CHANNEL_SIZE_THRESHOLD = 23
+
+# Limit to number of digits for scores
+# Upper limit of INTEGER(11) has 10 digits
+SCORE_DIGITS_LIMIT = 9
+
+# Random constants to serve as limits due to Slack API's limitations
+NUMBER_OF_GROUPS_LIMIT = 100
+MAX_LEADERBOARD_ENTRIES_PER_CATEGORY_LIMIT = 10
