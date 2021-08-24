@@ -1,0 +1,112 @@
+{
+    "_metadata": {
+        "major_version": 1,
+        "minor_version": 1
+    },
+    "display_information": {
+        "name": "SUTD WTH Bot",
+        "description": "Automated service provider for SUTD What The Hack",
+        "background_color": "#614633"
+    },
+    "features": {
+        "bot_user": {
+            "display_name": "SUTD WTH Bot",
+            "always_online": true
+        },
+        "slash_commands": [
+            {
+                "command": "/start",
+                "url": "https://subdomain.domain.tld/<secret-key>/commands",
+                "description": "Start the bot! 🤖",
+                "should_escape": true
+            },
+            {
+                "command": "/leaderboard",
+                "url": "https://subdomain.domain.tld/<secret-key>/commands",
+                "description": "Display the leaderboard 🏅",
+                "should_escape": true
+            },
+            {
+                "command": "/judge",
+                "url": "https://subdomain.domain.tld/<secret-key>/commands",
+                "description": "Begin judging sequence 👨‍⚖️",
+                "should_escape": true
+            },
+            {
+                "command": "/edit",
+                "url": "https://subdomain.domain.tld/<secret-key>/commands",
+                "description": "Edit previous judging decision 📝",
+                "should_escape": true
+            },
+            {
+                "command": "/cancel",
+                "url": "https://subdomain.domain.tld/<secret-key>/commands",
+                "description": "Abandon current conversation ❌",
+                "should_escape": true
+            },
+            {
+                "command": "/summary",
+                "url": "https://subdomain.domain.tld/<secret-key>/commands",
+                "description": "View scoring progress so far 📄",
+                "should_escape": true
+            },
+            {
+                "command": "/randomize",
+                "url": "https://subdomain.domain.tld/<secret-key>/commands",
+                "description": "Execute the group randomizer algorithm 🔀",
+                "should_escape": true
+            }
+        ]
+    },
+    "oauth_config": {
+        "scopes": {
+            "user": [
+                "chat:write"
+            ],
+            "bot": [
+                "incoming-webhook",
+                "channels:history",
+                "channels:read",
+                "chat:write",
+                "commands",
+                "files:read",
+                "files:write",
+                "groups:history",
+                "groups:read",
+                "im:history",
+                "im:read",
+                "im:write",
+                "links:read",
+                "links:write",
+                "mpim:history",
+                "mpim:read",
+                "mpim:write",
+                "remote_files:read",
+                "remote_files:share",
+                "remote_files:write",
+                "team:read",
+                "users:read",
+                "users:write",
+                "users:read.email"
+            ]
+        }
+    },
+    "settings": {
+        "event_subscriptions": {
+            "request_url": "https://subdomain.domain.tld/<secret-key>/events",
+            "bot_events": [
+                "message.channels",
+                "message.groups",
+                "message.im",
+                "message.mpim"
+            ]
+        },
+        "interactivity": {
+            "is_enabled": true,
+            "request_url": "https://subdomain.domain.tld/<secret-key>/actions"
+        },
+        "org_deploy_enabled": false,
+        "socket_mode_enabled": false,
+        "token_rotation_enabled": false
+    }
+}
