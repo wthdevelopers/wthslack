@@ -33,7 +33,7 @@ def choose_team(payload):
             if not validated_teams:
                 config.web_client.chat_postMessage(
                     channel=channel,
-                    text=f"Hi <@{user_id}>! It seems that you are not qualified enough to judge any teams. Apologies!",
+                    text=f"Hi <@{user_id}>! It seems that either you are not qualified enough to judge any teams or no teams are allocated to you yet. Apologies!",
                 )
 
             else:

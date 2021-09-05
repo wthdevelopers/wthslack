@@ -36,7 +36,7 @@ def choose_team(payload):
             if not validated_teams:
                 config.web_client.chat_postMessage(
                     channel=channel,
-                    text=f"Hi <@{user_id}>! It seems that you are not qualified enough to judge any teams. Apologies!",
+                    text=f"Hi <@{user_id}>! It seems that either you are not qualified enough to judge any teams or no teams are allocated to you yet. Apologies!",
                 )
 
             else:
@@ -151,6 +151,25 @@ def cancel_team_selection(payload):
     config.web_client.chat_postMessage(
         channel=channel,
         text=f"Your current judging process in this channel has been cancelled, <@{user_id}>!",
+    )
+
+    return
+
+
+@actions.on("view_submission:team_choosing")
+def cancel_team_selection(payload):
+    user_id = payload["user"]["id"]
+    channel = payload["view"]["private_metadata"]
+    status = config.db.check_score_existence(user_id)
+
+    if status:
+        conv_db.change_state(channel, user_id, config.CONVERSATION_END)
+    else:
+        conv_db.change_state(channel, user_id, config.INITIAL_STATE)
+
+    config.web_client.chat_postMessage(
+        channel=channel,
+        text=f"Please be patient, <@{user_id}>! The view pop-up would be updated after a while to allow you to enter your score for each criteria. Please retry the judging process again. Apologies and thank you!",
     )
 
     return
