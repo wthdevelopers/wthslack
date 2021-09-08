@@ -859,7 +859,7 @@ class DBHelper:
         session = self.Session()
 
         try:
-            session.query(self.Score.notes_filepath).filter(
+            session.query(self.Score).filter(
                 and_(self.Score.judge_id == judge_id, self.Score.group_id == group_id)
             ).update({self.Score.notes_filepath: path}, synchronize_session=False)
             session.commit()
