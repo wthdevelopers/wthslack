@@ -35,7 +35,7 @@ def summary(payload):
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "Hello <@{user_id}>, this is your current scoring summary table so far:",
+                            "text": f"Hello <@{user_id}>, this is your current scoring summary table so far:",
                         },
                     },
                     {"type": "divider"},
