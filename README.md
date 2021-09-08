@@ -67,6 +67,7 @@ With the current app design, the corresponding various Request URL endpoints are
       * `files:write`
       * `groups:history`
       * `groups:read`
+      * `groups.write`
       * `im:history`
       * `im:read`
       * `im:write`

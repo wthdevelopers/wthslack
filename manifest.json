@@ -64,7 +64,6 @@
                 "chat:write"
             ],
             "bot": [
-                "incoming-webhook",
                 "channels:history",
                 "channels:read",
                 "chat:write",
@@ -73,9 +72,11 @@
                 "files:write",
                 "groups:history",
                 "groups:read",
+                "groups:write",
                 "im:history",
                 "im:read",
                 "im:write",
+                "incoming-webhook",
                 "links:read",
                 "links:write",
                 "mpim:history",
@@ -86,8 +87,8 @@
                 "remote_files:write",
                 "team:read",
                 "users:read",
-                "users:write",
-                "users:read.email"
+                "users:read.email",
+                "users:write"
             ]
         }
     },

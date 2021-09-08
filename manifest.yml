@@ -43,7 +43,6 @@ oauth_config:
     user:
       - chat:write
     bot:
-      - incoming-webhook
       - channels:history
       - channels:read
       - chat:write
@@ -52,9 +51,11 @@ oauth_config:
       - files:write
       - groups:history
       - groups:read
+      - groups:write
       - im:history
       - im:read
       - im:write
+      - incoming-webhook
       - links:read
       - links:write
       - mpim:history
@@ -65,8 +66,8 @@ oauth_config:
       - remote_files:write
       - team:read
       - users:read
-      - users:write
       - users:read.email
+      - users:write
 settings:
   event_subscriptions:
     request_url: https://subdomain.domain.tld/<secret-key>/events
