@@ -131,7 +131,7 @@ async def remark_team(payload):
                         },
                         {
                             "type": "section",
-                            "title": {
+                            "text": {
                                 "type": "mrkdwn",
                                 "text": f"Remarks for *{group_name}* is at: {remark}",
                             },
