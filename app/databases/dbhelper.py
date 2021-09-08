@@ -872,6 +872,49 @@ class DBHelper:
 
         self.Session.remove()
 
+    # Update a score in the database
+    def edit_score(
+        self,
+        judge_id,
+        group_name,
+        category_name,
+        criteria_1_score,
+        criteria_2_score,
+        criteria_3_score,
+        criteria_4_score,
+    ):
+        session = self.Session()
+
+        # Prepare group_id and category_id
+        group_id = self.get_group_id(group_name)
+        category_id = self.get_category_id(category_name)
+
+        try:
+            session.query(self.Score).filter(
+                and_(
+                    self.Score.judge_id == judge_id,
+                    self.Score.group_id == group_id,
+                    self.Score.category_id == category_id,
+                )
+            ).update(
+                {
+                    self.Score.criteria_1_score: criteria_1_score,
+                    self.Score.criteria_2_score: criteria_2_score,
+                    self.Score.criteria_3_score: criteria_3_score,
+                    self.Score.criteria_4_score: criteria_4_score,
+                },
+                synchronize_session=False,
+            )
+            session.commit()
+        # This is important for modification queries
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+
+        self.Session.remove()
+
     # Get all scores of a specific category committed by the specified judge for editing purposes
     def get_all_scores(self, judge_id, category_name):
         session = self.Session()
