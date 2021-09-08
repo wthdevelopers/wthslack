@@ -71,32 +71,21 @@ async def handle_remarks(payload):
                 # Add filepath location to score table
                 config.db.add_remarks(user_id, group_id, url)
 
-                # Delete all threaded replies to this specific message except parent message
-                # Use a sensible limit and use OAUTH_KEY as token instead to provide the necessary permissions
-                for message in (
-                    await config.web_client.conversations_replies(
-                        channel=channel, ts=ts, limit=100
+                # Update parent message
+                if state == config.TEAM_REMARKS:
+                    config.web_client.chat_update(
+                        channel=channel,
+                        text=f"Remarks received! Your judging process has been finalized, <@{user_id}>!",
+                        blocks=None,
+                        ts=conv_db.get_ts(channel, user_id),
                     )
-                )["messages"][1:]:
-                    slack.WebClient(
-                        token=settings.OAUTH_KEY, loop=config.loop, run_async=True
-                    ).chat_delete(channel=channel, ts=message["ts"])
-
-                    # Update parent message
-                    if state == config.TEAM_REMARKS:
-                        config.web_client.chat_update(
-                            channel=channel,
-                            text=f"Remarks received! Your judging process has been finalized, <@{user_id}>!",
-                            blocks=None,
-                            ts=conv_db.get_ts(channel, user_id),
-                        )
-                    elif state == config.EDIT_REMARKS:
-                        config.web_client.chat_update(
-                            channel=channel,
-                            text=f"Remarks received! Your editing process has been finalized, <@{user_id}>!",
-                            blocks=None,
-                            ts=conv_db.get_ts(channel, user_id),
-                        )
+                elif state == config.EDIT_REMARKS:
+                    config.web_client.chat_update(
+                        channel=channel,
+                        text=f"Remarks received! Your editing process has been finalized, <@{user_id}>!",
+                        blocks=None,
+                        ts=conv_db.get_ts(channel, user_id),
+                    )
 
                 conv_db.change_state(channel, user_id, config.CONVERSATION_END)
 

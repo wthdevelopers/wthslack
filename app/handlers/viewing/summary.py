@@ -28,6 +28,7 @@ def summary(payload):
             )
 
         elif (state != config.INITIAL_STATE) or (state != config.CONVERSATION_END):
+            presence_of_scores = False
             try:
                 # Prepare scoreboard
                 content = [
@@ -35,7 +36,7 @@ def summary(payload):
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "Hello <@{user_id}>, this is your current scoring summary table so far:",
+                            "text": f"Hello <@{user_id}>, this is your current scoring summary table so far:",
                         },
                     },
                     {"type": "divider"},
@@ -44,6 +45,8 @@ def summary(payload):
                 for category in config.db.get_judged_categories(user_id):
                     category_name = config.db.get_category_name(category)
                     scoreboard = config.db.get_all_scores(user_id, category_name)
+                    if scoreboard:
+                        presence_of_scores = True
                     content.append(
                         {
                             "type": "section",
@@ -87,6 +90,17 @@ def summary(payload):
                                 }
                             )
                     content.append({"type": "divider"})
+
+                if not presence_of_scores:
+                    content = [
+                        {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": f"Hello <@{user_id}>, you do not have any submitted scores yet. Submit a judging score to get started!",
+                            },
+                        },
+                    ]
 
                 # Send scoreboard message
                 config.web_client.chat_postMessage(

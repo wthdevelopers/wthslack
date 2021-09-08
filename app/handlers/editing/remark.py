@@ -77,7 +77,7 @@ async def remark_team(payload):
                 criteria_3_score = int(list(c3[1].items())[0][1]["value"])
                 criteria_4_score = int(list(c4[1].items())[0][1]["value"])
 
-                config.db.add_score(
+                config.db.edit_score(
                     user_id,
                     group_name,
                     category_name,
@@ -89,54 +89,59 @@ async def remark_team(payload):
 
             remark = config.db.get_specific_remark(user_id, group_name)
 
-            timestamp = (
-                await config.web_client.chat_postMessage(
-                    channel=channel,
-                    blocks=[
-                        {
-                            "type": "section",
+            edit_remark_message_block = [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": f"Scores have been edited for team: *{group_name}*!\r\n\r\nIf you would like to edit the remarks for the team that you have judged, *reply* to this message with *one* photo of your remarks as a *threaded reply*. Please note that other types of messages will be ignored.\r\n\r\nOtherwise, press the button to finalize your judging process.\r\n\r\n",
+                    },
+                    "accessory": {
+                        "type": "button",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Finish editing",
+                            "emoji": True,
+                        },
+                        "action_id": "editing_end",
+                        "style": "danger",
+                        "value": "confirm_end_editing",
+                        "confirm": {
+                            "title": {
+                                "type": "plain_text",
+                                "text": "Are you sure?",
+                            },
                             "text": {
                                 "type": "mrkdwn",
-                                "text": f"Scores have been edited for team: *{group_name}*!\r\n\r\nIf you would like to edit the remarks for the team that you have judged, *reply* to this message with *one* photo of your remarks as a *threaded reply*. Please note that other types of messages will be ignored.\r\n\r\nOtherwise, press the button to finalize your judging process.\r\n\r\nThis is your current remarks for this team:\r\n",
+                                "text": "If you change your mind, feel free to edit your remarks entry later.",
                             },
-                            "accessory": {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "Finish editing",
-                                    "emoji": True,
-                                },
-                                "action_id": "editing_end",
-                                "style": "danger",
-                                "value": "confirm_end_editing",
-                                "confirm": {
-                                    "title": {
-                                        "type": "plain_text",
-                                        "text": "Are you sure?",
-                                    },
-                                    "text": {
-                                        "type": "mrkdwn",
-                                        "text": "If you change your mind, feel free to edit your remarks entry later.",
-                                    },
-                                    "confirm": {
-                                        "type": "plain_text",
-                                        "text": "Yes, just do it!",
-                                    },
-                                    "deny": {
-                                        "type": "plain_text",
-                                        "text": "Stop, I've changed my mind!",
-                                    },
-                                },
+                            "confirm": {
+                                "type": "plain_text",
+                                "text": "Yes, just do it!",
+                            },
+                            "deny": {
+                                "type": "plain_text",
+                                "text": "Stop, I've changed my mind!",
                             },
                         },
-                        {
-                            "type": "section",
-                            "title": {
-                                "type": "mrkdwn",
-                                "text": f"Remarks for *{group_name}* is at: {remark}",
-                            },
+                    },
+                }
+            ]
+
+            if remark is not None:
+                edit_remark_message_block.append(
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": f"Your current remarks for *{group_name}* is at: {remark}",
                         },
-                    ],
+                    }
+                )
+
+            timestamp = (
+                await config.web_client.chat_postMessage(
+                    channel=channel, blocks=edit_remark_message_block
                 )
             )["ts"]
 
