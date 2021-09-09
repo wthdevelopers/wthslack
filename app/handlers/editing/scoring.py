@@ -30,7 +30,7 @@ def score_team(payload):
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": f"Feel free to edit the scores for team *{selected_team}* as you see fit.",
+                        "text": f"Feel free to edit the scores for team *{selected_team}* as you see fit. Do take note that the maximum score is {settings.MAX_CRITERIA_SCORE}.",
                     },
                 }
             ]

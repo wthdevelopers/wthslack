@@ -28,7 +28,7 @@ def score_validation(payload):
 
     for criteria in list(payload["view"]["state"]["values"].items()):
         # Check if string contains non-digits
-        if not list(criteria[1].items())[0][1]["value"].isdigit():
+        if not list(criteria[1].items())[0][1]["value"].isdecimal():
             error_block[
                 f"{str(criteria[0])}"
             ] = "Please enter only non-negative integers in this field."
@@ -40,6 +40,11 @@ def score_validation(payload):
             error_block[
                 f"{str(criteria[0])}"
             ] = "Please remove any leading zeros in this field."
+        # Check if score exceeds the upper limit
+        elif int(list(criteria[1].items())[0][1]["value"]) > settings.MAX_CRITERIA_SCORE:
+            error_block[
+                f"{str(criteria[0])}"
+            ] = f"Please enter a value between 0 and {settings.MAX_CRITERIA_SCORE} inclusive."
 
     # Return warnings if inputs are invalid
     if bool(error_block):
