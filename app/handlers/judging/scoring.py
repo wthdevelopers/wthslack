@@ -30,7 +30,7 @@ def score_team(payload):
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": f"Please enter the score for team *{selected_team}*.",
+                        "text": f"Please enter the score for team *{selected_team}*. Do take note that the maximum score is {settings.MAX_CRITERIA_SCORE}.",
                     },
                 }
             ]
