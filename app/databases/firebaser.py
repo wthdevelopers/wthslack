@@ -34,7 +34,7 @@ class FireConn:
                 self.db.collection("conversations").document(f"{str(channel_id)}").set(
                     {f"{str(user_id)}": {"state": config.CONVERSATION_END}}, merge=True
                 )
-                return config.INITIAL_STATE
+                return config.CONVERSATION_END
 
             else:
                 self.db.collection("conversations").document(f"{str(channel_id)}").set(
