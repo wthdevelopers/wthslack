@@ -179,6 +179,7 @@ class DBHelper:
         criteria_2_score = Column(INTEGER(11), nullable=False)
         criteria_3_score = Column(INTEGER(11), nullable=False)
         criteria_4_score = Column(INTEGER(11), nullable=False)
+        remarks_text = Column(Text)
         notes_filepath = Column(Text)
 
         def __repr__(self):
@@ -854,14 +855,14 @@ class DBHelper:
 
         self.Session.remove()
 
-    # Append the remarks image URL to the score commit
-    def add_remarks(self, judge_id, group_id, path):
+    # Update the remarks image URL and textual remarks to the score commit
+    def update_remarks(self, judge_id, group_id, path, textual_remarks):
         session = self.Session()
 
         try:
             session.query(self.Score).filter(
                 and_(self.Score.judge_id == judge_id, self.Score.group_id == group_id)
-            ).update({self.Score.notes_filepath: path}, synchronize_session=False)
+            ).update({self.Score.notes_filepath: path, self.Score.remarks_text: textual_remarks}, synchronize_session=False)
             session.commit()
         # This is important for modification queries
         except:
@@ -930,6 +931,7 @@ class DBHelper:
                 self.Score.criteria_3_score,
                 self.Score.criteria_4_score,
                 self.Score.notes_filepath,
+                self.Score.remarks_text
             )
             .filter(
                 and_(
@@ -1030,7 +1032,7 @@ class DBHelper:
         group_id = self.get_group_id(group_name)
 
         category_score = (
-            session.query(self.Score.notes_filepath)
+            session.query(self.Score.notes_filepath, self.Score.remarks_text)
             .filter(
                 and_(
                     self.Score.judge_id == judge_id,
@@ -1042,4 +1044,4 @@ class DBHelper:
 
         self.Session.remove()
 
-        return category_score[0][0]
+        return category_score[0]
