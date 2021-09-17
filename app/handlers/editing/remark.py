@@ -99,7 +99,7 @@ async def remark_team(payload):
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": f"Scores have been edited for team: *{group_name}*!\r\n\r\nIf you would like to edit the remarks for the team that you have judged, *reply* to this message with *one* photo of your remarks as a *threaded reply*. Please note that other types of messages will be ignored.\r\n\r\nOtherwise, press the button to finalize your judging process.\r\n\r\n",
+                        "text": f"Scores have been edited for team: *{group_name}*!\r\n\r\nIf you would like to edit the remarks for the team that you have judged, *reply* to this message with some textual remarks or/and *one* photo of your remarks as a *threaded reply*. Please note that other types of messages will be ignored.\r\n\r\nOtherwise, press the button to finalize your judging process.\r\n\r\n",
                     },
                     "accessory": {
                         "type": "button",
