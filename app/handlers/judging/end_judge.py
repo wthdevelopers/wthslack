@@ -49,8 +49,6 @@ async def handle_remarks(payload):
     if (
         (payload["event"].get("parent_user_id") == settings.BOT_ID)
         and (payload["event"].get("thread_ts") == ts)
-        and ("files" in payload["event"])
-        and (payload["event"].get("subtype") == "file_share")
     ):
         if user_id in config.db.get_all_judges():
             state = conv_db.get_state(channel, user_id)
@@ -66,8 +64,20 @@ async def handle_remarks(payload):
                 )["messages"][0]["blocks"][0]["text"]["text"]
                 group_name = text.split(": *", 1)[1].rsplit("*!", 1)[0]
                 group_id = config.db.get_group_id(group_name)
-                url = payload["event"]["files"][0]["url_private"]
-                remarks_text = payload["event"]["blocks"][0]["elements"][0]["elements"][0]["text"]
+                try:
+                    if ("files" in payload["event"]) and (payload["event"].get("subtype") == "file_share"):
+                        url = payload["event"]["files"][0]["url_private"]
+                    else:
+                        url = None
+                except KeyError:
+                    url = None
+                try:
+                    if ("text" in payload["event"]) and payload["event"]["text"]:
+                        remarks_text = payload["event"]["text"]
+                    else:
+                        remarks_text = None
+                except KeyError:
+                    remarks_text = None
 
                 # Add filepath location and textual remarks to score table
                 config.db.update_remarks(user_id, group_id, url, remarks_text)
