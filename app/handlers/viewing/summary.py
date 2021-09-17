@@ -47,40 +47,22 @@ def summary(payload):
                     scoreboard = config.db.get_all_scores(user_id, category_name)
                     if scoreboard:
                         presence_of_scores = True
-                    content.append(
-                        {
+                    content.extend(
+                        [
+                            {
                             "type": "section",
                             "text": {
                                 "type": "mrkdwn",
                                 "text": f"*{category_name}* Category",
+                                },
                             },
-                        }
+                            {"type": "divider"}
+                        ]
+                        
                     )
-                    for score in scoreboard:
+                    for idx, score in enumerate(scoreboard):
                         group_name = config.db.get_group_name(score[0])
-                        # If there are remarks
-                        if bool(score[5]):
-                            content.extend(
-                                [
-                                    {
-                                        "type": "section",
-                                        "text": {
-                                            "type": "mrkdwn",
-                                            "text": f"*{group_name}*\r\n\r\n{settings.CRITERIAS[0]}: {score[1]}\r\n{settings.CRITERIAS[1]}: {score[2]}\r\n{settings.CRITERIAS[2]}: {score[3]}\r\n{settings.CRITERIAS[3]}: {score[4]}\r\n",
-                                        },
-                                    },
-                                    {
-                                        "type": "section",
-                                        "text": {
-                                            "type": "mrkdwn",
-                                            "text": f"Remarks for *{group_name}* is at: {score[5]}",
-                                        },
-                                    },
-                                ]
-                            )
-                        # If there are no remarks
-                        else:
-                            content.append(
+                        content.append(
                                 {
                                     "type": "section",
                                     "text": {
@@ -89,6 +71,30 @@ def summary(payload):
                                     },
                                 }
                             )
+                        # If there is remark image
+                        if score[5] is not None:
+                            content.append(
+                                    {
+                                        "type": "section",
+                                        "text": {
+                                            "type": "mrkdwn",
+                                            "text": f"Remarks image for *{group_name}* is at: {score[5]}",
+                                        },
+                                    },
+                            )
+                        # If there are textual remarks
+                        if score[6] is not None:
+                            content.append(
+                                    {
+                                        "type": "section",
+                                        "text": {
+                                            "type": "mrkdwn",
+                                            "text": f"Remarks text for *{group_name}* is: {score[6]}",
+                                        },
+                                    },
+                            )
+                        if idx != len(scoreboard) - 1:
+                            content.append({"type": "divider"})
                     content.append({"type": "divider"})
 
                 if not presence_of_scores:

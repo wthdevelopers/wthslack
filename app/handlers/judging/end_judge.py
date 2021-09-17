@@ -57,7 +57,7 @@ async def handle_remarks(payload):
 
             # Validate state
             if (state == config.TEAM_REMARKS) or (state == config.EDIT_REMARKS):
-                # Store image URL in workspace to database
+                # Store image URL and textual remarks in workspace to database
                 # Image URL is still valid even after message deletion
                 text = (
                     await config.web_client.conversations_history(
@@ -67,9 +67,10 @@ async def handle_remarks(payload):
                 group_name = text.split(": *", 1)[1].rsplit("*!", 1)[0]
                 group_id = config.db.get_group_id(group_name)
                 url = payload["event"]["files"][0]["url_private"]
+                remarks_text = payload["event"]["blocks"][0]["elements"][0]["elements"][0]["text"]
 
-                # Add filepath location to score table
-                config.db.add_remarks(user_id, group_id, url)
+                # Add filepath location and textual remarks to score table
+                config.db.update_remarks(user_id, group_id, url, remarks_text)
 
                 # Update parent message
                 if state == config.TEAM_REMARKS:

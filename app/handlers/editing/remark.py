@@ -133,13 +133,24 @@ async def remark_team(payload):
                 }
             ]
 
-            if remark is not None:
+            if remark[0] is not None:
                 edit_remark_message_block.append(
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": f"Your current remarks for *{group_name}* is at: {remark}",
+                            "text": f"Your current remarks image for *{group_name}* is at: {remark[0]}",
+                        },
+                    }
+                )
+
+            if remark[1] is not None:
+                edit_remark_message_block.append(
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": f"Your current remarks text for *{group_name}* is: {remark[1]}",
                         },
                     }
                 )
