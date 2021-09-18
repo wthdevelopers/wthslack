@@ -63,6 +63,8 @@ RANDOMIZER_CHANNEL_SIZE_THRESHOLD = 23
 # Upper limit of INTEGER(11) has 10 digits, however maximum score is 100 (with 3 digits)
 SCORE_DIGITS_LIMIT = 3
 
+SCORE_DECIMAL_LIMIT = 3
+
 MAX_CRITERIA_SCORE = 100
 
 # Random constants to serve as limits due to Slack API's limitations

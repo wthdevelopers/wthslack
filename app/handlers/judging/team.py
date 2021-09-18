@@ -123,6 +123,21 @@ def choose_team(payload):
                         else:
                             conv_db.change_state(channel, user_id, config.INITIAL_STATE)
 
+                else:
+                    config.web_client.chat_postMessage(
+                            channel=channel,
+                            text=f"Hi <@{user_id}>! It seems that there are too many groups that you are assigned to. Unfortunately, this violates Slack's API limits. Please check with the organizing committee on this and retry the judging process again when everything is in order. Apologies!",
+                        )
+
+                    status = config.db.check_score_existence(user_id)
+
+                    if status:
+                        conv_db.change_state(
+                            channel, user_id, config.CONVERSATION_END
+                        )
+                    else:
+                        conv_db.change_state(channel, user_id, config.INITIAL_STATE)
+
         else:
             config.fallback.fallback(payload)
 
