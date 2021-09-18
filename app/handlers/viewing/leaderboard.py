@@ -17,7 +17,7 @@ def init(category):
     field = []
     for i in range(len(board)):
         name = board[i][0]
-        score = board[i][1]
+        score = round(board[i][1], settings.SCORE_DECIMAL_LIMIT)
 
         field.append({"type": "mrkdwn", "text": f"*{str(name)} - {str(score)}*"})
 
