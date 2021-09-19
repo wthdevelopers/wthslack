@@ -62,7 +62,7 @@ def score_validation(payload):
 async def remark_team(payload):
     user_id = payload["user"]["id"]
     channel = payload["view"]["private_metadata"].split(", ")[0]
-    group_name = payload["view"]["private_metadata"].split(", ")[1]
+    group_name = payload["view"]["private_metadata"].split(", ", 1)[1]
 
     if user_id in config.db.get_all_judges():
         state = conv_db.get_state(channel, user_id)
