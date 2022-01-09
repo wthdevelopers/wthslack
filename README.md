@@ -10,6 +10,15 @@ This Slack bot assists with administration, registration and judging for the pur
 
 This codebase is made open to the public to prove that the score processing during judging is not rigged. 😉
 
+More formally/rigorously, the objectives of this bot are to:
+
+- Automate collection, tabulation, and calculation of scoring submissions by the judges
+- Automate generation of the overall final score leaderboard to cut off processing time
+- Ensure tamper-proof scores through judge authentication (except for veto powers of the organizer)
+- (TODO) Assist with document and details management of the participants, judges, and Slack workspace for the hackathon
+
+Other simpler alternatives are definitely available, such as using Google Sheets, Microsoft Excel, or just sheets of paper. Such alternative methods can be utilized as backup solutions in the case of errors/failures of this bot.
+
 ## Table of Contents
 
 - [Description](#description)
