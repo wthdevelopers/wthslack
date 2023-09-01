@@ -57,7 +57,7 @@ MIN_GROUP_SIZE = 3
 MAX_GROUP_SIZE = 5
 
 # This threshold is arbitrarily chosen
-RANDOMIZER_CHANNEL_SIZE_THRESHOLD = 23
+RANDOMIZER_CHANNEL_SIZE_THRESHOLD = 70
 
 # Limit to number of digits for scores
 # Upper limit of INTEGER(11) has 10 digits, however maximum score is 100 (with 3 digits)
