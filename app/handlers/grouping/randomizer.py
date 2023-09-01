@@ -96,6 +96,9 @@ def get_eligible_integer_compositions(
     - For (strict) compositions, use the restriction function f(x) = 1.
     - For partitions, use the restriction function f(x) = x.
 
+    For more explanation on the sigma restriction function, see Equation
+    (3.1) from here: https://jeromekelleher.net/downloads/k06.pdf#page=58
+
     Each group sizes configuration has an equal, uniform probability of
     being chosen. Hence, there would be no bias towards any specific
     grouping configuration (either balanced or maximum). Technically,
@@ -132,7 +135,7 @@ def get_eligible_integer_compositions(
             k += 1
         a[k] = x + y
         z = a[: k + 1]
-        if min(z) >= min_value and max(z) <= max_value:
+        if (z[0] >= min_value) and (z[-1] <= max_value):
             yield z
 
 
@@ -241,8 +244,8 @@ def get_random_groupings(
         possible_group_sizes_configurations = list(
             get_eligible_integer_compositions(
                 channel_size,
-                1,
-                lambda x: 1,
+                settings.MIN_GROUP_SIZE,
+                lambda x: x,
                 settings.MIN_GROUP_SIZE,
                 settings.MAX_GROUP_SIZE,
             )
